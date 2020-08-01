@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { check, validationError, validationResult } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 
 const CategoryModel = require('../../models/Category');
 
@@ -15,7 +15,7 @@ router.get('/', /* auth */ async (req, res) => {
         if(categories) {
             return res.json(categories);
         }else {
-            return res.status(400).json({ message: 'Nincsenek kategóriák!' });
+            return res.status(400).json({ status_code: "ERR_CAT_NO_CATEGORIES", message: 'Nincsenek kategóriák!' });
         }
     } catch (err) {
         console.error(err.message);
@@ -31,7 +31,7 @@ router.get('/:categoryId', /* auth */ async (req, res) => {
         const category = await CategoryModel.findById(req.params.categoryId);
         
         if(!category) {
-            return res.status(404).json({ message: 'A kategória nem található!' });
+            return res.status(404).json({ status_code: "ERR_CAT_CATEGORY_NOTFOUND", message: 'A kategória nem található!' });
         }
 
         return res.json(category);
@@ -49,13 +49,13 @@ router.get('/:categoryId', /* auth */ async (req, res) => {
 // @access Private TODO
 router.post('/', [
     // auth
-    check('name', 'Kategória név megadása kötelező!'),
-    check('color', 'Szín megadása kötelező!')
+    check('name', 'Kategória név megadása kötelező!').notEmpty(),
+    check('color', 'Szín megadása kötelező!').notEmpty()
 ], async (req, res) => {
     try {
         const errors = validationResult(req);
         if(!errors.isEmpty()){
-            return res.status(400).json({ errors: errors.array() });
+            return res.status(400).json({ status_code: "ERR_VALIDATION_ERROR", errors: errors.array() });
         }
 
         const newCategory = new CategoryModel({
@@ -77,14 +77,19 @@ router.post('/', [
 // @access Private TODO
 router.put('/:categoryId', [
     // auth
-    check('name', 'Kategória név megadása kötelező!'),
-    check('color', 'Szín megadása kötelező!')
+    check('name', 'Kategória név megadása kötelező!').notEmpty(),
+    check('color', 'Szín megadása kötelező!').notEmpty()
 ], async (req, res) => {
     try {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(400).json({ status_code: "ERR_VALIDATION_ERROR", errors: errors.array() });
+        }
+
         const category = await CategoryModel.findById(req.params.categoryId);
         
         if(!category){
-            return res.status(404).json({ message: 'Kategória nem található!' });
+            return res.status(404).json({ status_code: "ERR_CAT_CATEGORY_NOTFOUND", message: 'Kategória nem található!' });
         }
 
         category.name = req.body.name;
@@ -109,7 +114,7 @@ router.delete('/:categoryId', /* auth */ async (req, res) => {
     try {
         await CategoryModel.findOneAndRemove({ _id: req.params.categoryId });
 
-        return res.json({ message: 'Kategória sikeresen törölve!' });
+        return res.json({ status_code: "SUCCESS_CATEGORY_DELETED", message: 'Kategória sikeresen törölve!' });
     } catch (err) {
         if(err.kind === "ObjectId") {
             return res.status(400).json({ message: 'A kategória nem található!' });
