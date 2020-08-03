@@ -89,15 +89,24 @@ class UserService {
 
   changePassword = (user, error, success) => {
     try {
-      const { id, password } = user;
-      const hashedPassword = passwordHasher(password);
-      UserModel.findByIdAndUpdate({ _id: id }, {
-        password: hashedPassword
-      }, (err, res) => {
-        if(err || !res) {
-          error({ status_code: 'ERR_USER_FAILED_PASSWORDCHANGE', message: 'Hiba történt a jelszóváltoztatáskor!' });
+      const { id, old_password, password } = user;
+      UserModel.findById(id, (err, userToUpdate) => {
+        if(err || !userToUpdate) {
+          error({ status_code: 'ERR_USER_NOTFOUND', message: 'Felhasználó nem található!' });
         } else {
-          success({ message: 'Sikeres jelszómódosítás!' });
+          if(!bcrypt.compareSync(old_password, userToUpdate.password)) {
+            error({ status_code: 'ERR_USER_FAILED_PASSWORDVERIFY', message: 'Hibás jelenlegi jelszó!' });
+          } else {
+            const hashedPassword = passwordHasher(password);
+            userToUpdate.password = hashedPassword;
+            userToUpdate.save({}, (err, result) => {
+              if(err || !result) {
+                error({ status_code: 'ERR_USER_FAILED_PASSWORDCHANGE', message: 'Hiba történt a jelszómódosítás közben!' });
+              } else {
+                success({ message: 'Sikeres jelszómódosítás!' });
+              }
+            });
+          }    
         }
       });
     } catch (err) {
