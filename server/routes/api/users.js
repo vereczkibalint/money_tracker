@@ -3,10 +3,10 @@ const express = require('express');
 const router = express.Router();
 
 const bcrypt = require('bcryptjs');
+const auth = require('../../middleware/auth');
 
 const { check, validationResult } = require('express-validator');
-const { fetchAllUsers, fetchUserById } = require('../../services/UserService');
-const UserService = require('../../services/UserService');
+const { fetchAllUsers, fetchUserById, registerUser, deleteUser, changePassword } = require('../../services/UserService');
 
 router.get('/', (req, res) => {
     try {
@@ -37,7 +37,7 @@ router.get('/:userId', (req, res) => {
 });
 
 // @route POST /api/users/
-// @desc Create user
+// @desc Register user
 // @access Public
 router.post('/',
   check('lastName', 'Vezetéknév megadása kötelező!').notEmpty(),
@@ -58,21 +58,22 @@ router.post('/',
             lastName, firstName, email, password, password_confirm
         };
 
-        UserService.registerUser(newUser, (error) => {
+        registerUser(newUser, (error) => {
             return res.status(400).json(error);
         }, (result) => {
             return res.json(result);
         });
     } catch (err) {
         console.error(err.message);
-        return res.status(500).send('Szerver hiba!');
+        return res.status(500).json({ status_code: 'ERR_INTERNAL_SERVER', message: 'Szerver hiba!' });
     }
 });
 
 // @route POST /api/users/password_change/:userId
 // @desc Modify users password
-// @access Private TODO
+// @access Private
 router.post('/password_change/:userId',
+    auth,
     check('old_password', 'Régi jelszó megadása kötelező!').notEmpty(),
     check('password', 'Jelszó megadása kötelező (min. 6 karakter)!').notEmpty().isLength({ min: 6 }),
     check('password_confirm', 'A két jelszó nem egyezik meg!').notEmpty().custom((value, { req }) => value === req.body.password)
@@ -82,17 +83,21 @@ router.post('/password_change/:userId',
         if(!errors.isEmpty()){
             return res.status(400).json({ status_code: "ERR_VALIDATION_ERROR", errors: errors });
         }
-        /* validate that logged in users id matches the id in the params */
         const { userId } = req.params;
+        const { id } = req.user;
+        
+        if(id.toString() !== userToDeleteId) {
+            return res.status(400).json({ status_code: 'ERR_USER_NOTAUTHORIZED', message: 'Autentikációs hiba!' });
+        }
+        
         const { old_password, password } = req.body;
         const user = {
-            /* id: get it from token */
             id: userId,
             old_password,
             password
         };
 
-        UserService.changePassword(user, (error) => {
+        changePassword(user, (error) => {
             return res.status(400).json(error);
         }, (result) => {
             return res.json(result);
@@ -105,11 +110,17 @@ router.post('/password_change/:userId',
 
 // @route DELETE /api/users/:userId
 // @desc Delete users data
-// @access Private TODO
-router.delete('/:userId', /* auth */ (req, res) => {
+// @access Private
+router.delete('/:userId', auth, (req, res) => {
     try {
         const { userId } = req.params;
-        UserService.deleteUser(userId, (error) => {
+        const { id } = req.user;
+
+        if(id.toString() !== userId) {
+            return res.status(400).json({ status_code: 'ERR_USER_NOTAUTHORIZED', message: 'Autentikációs hiba!' });
+        }
+
+        deleteUser(userId, (error) => {
             return res.status(400).json(error);
         }, (result) => {
             return res.json(result);

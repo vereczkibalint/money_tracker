@@ -8,8 +8,8 @@ const { fetchAllCategories, fetchCategoryById, insertCategory, updateCategory, d
 
 // @route  GET /api/categories
 // @desc   Fetch all categories
-// @access Private TODO
-router.get('/', (req, res) => { 
+// @access Private
+router.get('/', auth, (req, res) => { 
     try {
         fetchAllCategories((error) => {
             return res.status(400).json(error);
@@ -18,13 +18,13 @@ router.get('/', (req, res) => {
         });
     } catch (err) {
         console.error(err.message);
-        return res.status(500).send('Szerver hiba!');
+        return res.status(500).json({ status_code: 'ERR_INTERNAL_SERVER', message: 'Szerver hiba!' });
     }
 });
 
 // @route  GET /api/categories/:categoryId
 // @desc   Fetch category by ID
-// @access Private TODO
+// @access Private
 router.get('/:categoryId', auth, (req, res) => {
     try {
         const { categoryId } = req.params;
@@ -36,13 +36,13 @@ router.get('/:categoryId', auth, (req, res) => {
         });
     } catch (err) {
         console.error(err.message);
-        return res.status(500).send('Szerver hiba!');
+        return res.status(500).json({ status_code: 'ERR_INTERNAL_SERVER', message: 'Szerver hiba!' });
     }
 });
 
 // @route  POST /api/categories
 // @desc   Create a category
-// @access Private TODO
+// @access Private
 router.post('/', [
     auth,
     check('name', 'Kategória név megadása kötelező!').notEmpty(),
@@ -67,7 +67,7 @@ router.post('/', [
         });
     } catch (err) {
         console.error(err);
-        return res.status(500).send('Szerver hiba!');
+        return res.status(500).json({ status_code: 'ERR_INTERNAL_SERVER', message: 'Szerver hiba!' });
     }
 });
 
@@ -101,25 +101,26 @@ router.put('/:categoryId', [
         });
     } catch (err) {
         console.error(err.message);
-        return res.status(500).send('Szerver hiba!');
+        return res.status(500).json({ status_code: 'ERR_INTERNAL_SERVER', message: 'Szerver hiba!' });
     }
 });
 
 // @route  DELETE /api/categories/:categoryId
 // @desc   Delete a category
 // @access Private TODO
-router.delete('/:categoryId',auth,(req, res) => {
+router.delete('/:categoryId', auth, (req, res) => {
     try {
         const { categoryId } = req.params;
+        const { id } = req.user;
 
-        deleteCategory(req.user.id.toString(), categoryId, (error) => {
+        deleteCategory(id.toString(), categoryId, (error) => {
             return res.status(400).json(error);
         }, (result) => {
             return res.json(result);
         });
     } catch (err) {
         console.error(err.message);
-        return res.status(500).send('Szerver hiba!');
+        return res.status(500).json({ status_code: 'ERR_INTERNAL_SERVER', message: 'Szerver hiba!' });
     }
 });
 

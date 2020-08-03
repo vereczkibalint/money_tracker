@@ -3,36 +3,38 @@ const jwt = require('jsonwebtoken');
 
 const UserModel = require('../models/User');
 
-const loginUser = (reqUser, error, success) => {
-  UserModel.findOne({ email: reqUser.email }, { "password": 0 }, (err, user) => {
-    if(err || !user) {
-      error({ status_code: 'ERR_AUTH_USER_NOTFOUND', message: 'Nincs ilyen felhasználó az adatbázisban!' });
-    } else {
-      if(!bcrypt.compareSync(reqUser.password, user.password)) {
-        error({ status_code: 'ERR_AUTH_FAILED', message: 'Sikertelen bejelentkezés!' });
-      } else {
-        const payload = {
-          user: {
-            id: user.id,
-            email: user.email,
-            lastName: user.lastName,
-            firstName: user.firstName
-          }
-        }
-
-        jwt.sign(
-          payload,
-          config.get('JWT_SECRET'),
-          { expiresIn: 3600000 }, (err, token) => {
-            if(err) {
-              throw err;
+class AuthService {
+    loginUser = (reqUser, error, success) => {
+        UserModel.findOne({ email: reqUser.email }, { "password": 0 }, (err, user) => {
+          if(err || !user) {
+            error({ status_code: 'ERR_AUTH_USER_NOTFOUND', message: 'Nincs ilyen felhasználó az adatbázisban!' });
+          } else {
+            if(!bcrypt.compareSync(reqUser.password, user.password)) {
+              error({ status_code: 'ERR_AUTH_FAILED', message: 'Sikertelen bejelentkezés!' });
             } else {
-              success({ token });
+              const payload = {
+                user: {
+                  id: user.id,
+                  email: user.email,
+                  lastName: user.lastName,
+                  firstName: user.firstName
+                }
+              }
+
+              jwt.sign(
+                payload,
+                config.get('JWT_SECRET'),
+                { expiresIn: 3600000 }, (err, token) => {
+                  if(err) {
+                    throw err;
+                  } else {
+                    success({ token });
+                  }
+              });
             }
+          }
         });
-      }
     }
-  });
 }
 
-module.exports = loginUser;
+module.exports = new AuthService();

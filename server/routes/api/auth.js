@@ -5,6 +5,9 @@ const { loginUser } = require('../../services/AuthService');
 
 const { check, validationResult } = require('express-validator');
 
+// @route  /api/auth
+// @desc   Login user
+// @access Public
 router.post('/',
   check('email', 'Email megadása kötelező!').isEmail(),
   check('password', 'Jelszó megadása kötelező!').isLength({ min: 6 })

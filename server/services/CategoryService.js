@@ -29,7 +29,6 @@ class CategoryService {
             if(err.kind === "ObjectId") {
                 error({ status_code: 'ERR_CAT_CATEGORY_NOTFOUND', message: 'A kategória nem található!' });
             }
-            console.error(err.message);
             error({ status_code: 'ERR_INTERNAL_SERVER', message: 'Szerver hiba!' });
         }
     }
@@ -77,7 +76,6 @@ class CategoryService {
             CategoryModel.findOneAndDelete({ _id: categoryId, createdBy: user }, (err, res) => {
                 if(err || !res || res === null) {
                     error({ status_code: 'ERR_CATEGORY_FAILED_DELETE', message: 'A kategória törlése során hiba történt!' });
-                    console.log('nem egyező user');
                 } else {
                     success({ message: 'Sikeres törlés!' });
                 }
