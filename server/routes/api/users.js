@@ -73,6 +73,7 @@ router.post('/',
 // @desc Modify users password
 // @access Private TODO
 router.post('/password_change/:userId',
+    check('old_password', 'Régi jelszó megadása kötelező!').notEmpty(),
     check('password', 'Jelszó megadása kötelező (min. 6 karakter)!').notEmpty().isLength({ min: 6 }),
     check('password_confirm', 'A két jelszó nem egyezik meg!').notEmpty().custom((value, { req }) => value === req.body.password)
 , (req, res) => {
@@ -83,10 +84,11 @@ router.post('/password_change/:userId',
         }
         /* validate that logged in users id matches the id in the params */
         const { userId } = req.params;
-        const { password } = req.body;
+        const { old_password, password } = req.body;
         const user = {
             /* id: get it from token */
             id: userId,
+            old_password,
             password
         };
 
