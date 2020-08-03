@@ -40,7 +40,7 @@ class CategoryService {
 
             newCategory.save({}, (err, res) => {
                 if(err || !res) {
-                    error({ status_code: 'ERR_CAT_FAILED_INSERT', message: 'A kategória felvitele során hiba történt!' });
+                    error({ status_code: 'ERR_CAT_FAILED_INSERT', message: 'A kategória felvitele során hiba történt!', err });
                 } else {
                     success(res);
                 }
@@ -72,11 +72,12 @@ class CategoryService {
         }
     }
 
-    deleteCategory = (categoryId, error, success) => {
+    deleteCategory = (user, categoryId, error, success) => {
         try {
-            CategoryModel.findOneAndDelete({ _id: categoryId }, (err, res) => {
+            CategoryModel.findOneAndDelete({ _id: categoryId, createdBy: user }, (err, res) => {
                 if(err || !res || res === null) {
                     error({ status_code: 'ERR_CATEGORY_FAILED_DELETE', message: 'A kategória törlése során hiba történt!' });
+                    console.log('nem egyező user');
                 } else {
                     success({ message: 'Sikeres törlés!' });
                 }
