@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
 const { fetchAllCategories, fetchCategoryById, insertCategory, updateCategory, deleteCategory } = require('../../services/CategoryService');
@@ -8,7 +9,7 @@ const { fetchAllCategories, fetchCategoryById, insertCategory, updateCategory, d
 // @route  GET /api/categories
 // @desc   Fetch all categories
 // @access Private TODO
-router.get('/', /* auth */ (req, res) => { 
+router.get('/', (req, res) => { 
     try {
         fetchAllCategories((error) => {
             return res.status(400).json(error);
@@ -24,7 +25,7 @@ router.get('/', /* auth */ (req, res) => {
 // @route  GET /api/categories/:categoryId
 // @desc   Fetch category by ID
 // @access Private TODO
-router.get('/:categoryId', /* auth */ (req, res) => {
+router.get('/:categoryId', auth, (req, res) => {
     try {
         const { categoryId } = req.params;
 
@@ -43,7 +44,7 @@ router.get('/:categoryId', /* auth */ (req, res) => {
 // @desc   Create a category
 // @access Private TODO
 router.post('/', [
-    // auth
+    auth,
     check('name', 'Kategória név megadása kötelező!').notEmpty(),
     check('color', 'Szín megadása kötelező!').notEmpty()
 ], (req, res) => {
@@ -55,7 +56,8 @@ router.post('/', [
 
         const newCategory = {
             name: req.body.name,
-            color: req.body.color
+            color: req.body.color,
+            createdBy: req.user.id.toString()
         };
 
         insertCategory(newCategory, (error) => {
@@ -73,7 +75,7 @@ router.post('/', [
 // @desc   Modify a category
 // @access Private TODO
 router.put('/:categoryId', [
-    // auth
+    auth,
     check('name', 'Kategória név megadása kötelező!').notEmpty(),
     check('color', 'Szín megadása kötelező!').notEmpty()
 ], (req, res) => {
@@ -106,11 +108,11 @@ router.put('/:categoryId', [
 // @route  DELETE /api/categories/:categoryId
 // @desc   Delete a category
 // @access Private TODO
-router.delete('/:categoryId', /* auth */ (req, res) => {
+router.delete('/:categoryId',auth,(req, res) => {
     try {
         const { categoryId } = req.params;
 
-        deleteCategory(categoryId, (error) => {
+        deleteCategory(req.user.id.toString(), categoryId, (error) => {
             return res.status(400).json(error);
         }, (result) => {
             return res.json(result);
