@@ -70,7 +70,7 @@ class UserService {
               jwt.sign(
                 payload,
                 config.get('JWT_SECRET'),
-                { expiresIn: 36000 }, (err, token) => {
+                { expiresIn: 3600000 }, (err, token) => {
                   if(err) {
                     throw err;
                   } else {
