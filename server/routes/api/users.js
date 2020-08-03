@@ -49,7 +49,7 @@ router.post('/',
     try {
         const errors = validationResult(req);
         if(!errors.isEmpty()){
-            return res.status(400).json({ errors: errors });
+            return res.status(400).json({ status_code: "ERR_VALIDATION_ERROR", errors: errors });
         }
 
         const { lastName, firstName, email, password, password_confirm } = req.body;
@@ -80,7 +80,7 @@ router.post('/password_change/:userId',
     try {
         const errors = validationResult(req);
         if(!errors.isEmpty()){
-            return res.status(400).json({ errors: errors });
+            return res.status(400).json({ status_code: "ERR_VALIDATION_ERROR", errors: errors });
         }
         /* validate that logged in users id matches the id in the params */
         const { userId } = req.params;
