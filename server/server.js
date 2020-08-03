@@ -12,12 +12,14 @@ const connectToDB = require('./config/db');
 connectToDB();
 
 const categoryRouter = require('./routes/api/category');
+const userRouter = require('./routes/api/users');
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
 app.use('/api/categories', categoryRouter);
+app.use('/api/users', userRouter);
 
 const PORT = process.env.PORT || 3001;
 
