@@ -3,20 +3,18 @@ const router = express.Router();
 
 const { check, validationResult } = require('express-validator');
 
-const CategoryModel = require('../../models/Category');
+const { fetchAllCategories, fetchCategoryById, insertCategory, updateCategory, deleteCategory } = require('../../services/CategoryService');
 
 // @route  GET /api/categories
 // @desc   Fetch all categories
 // @access Private TODO
-router.get('/', /* auth */ async (req, res) => {
+router.get('/', /* auth */ (req, res) => { 
     try {
-        const categories = await CategoryModel.find();
-
-        if(categories) {
-            return res.json(categories);
-        }else {
-            return res.status(400).json({ status_code: "ERR_CAT_NO_CATEGORIES", message: 'Nincsenek kategóriák!' });
-        }
+        fetchAllCategories((error) => {
+            return res.status(400).json(error);
+        }, (result) => {
+            return res.json(result);
+        });
     } catch (err) {
         console.error(err.message);
         return res.status(500).send('Szerver hiba!');
@@ -26,19 +24,16 @@ router.get('/', /* auth */ async (req, res) => {
 // @route  GET /api/categories/:categoryId
 // @desc   Fetch category by ID
 // @access Private TODO
-router.get('/:categoryId', /* auth */ async (req, res) => {
+router.get('/:categoryId', /* auth */ (req, res) => {
     try {
-        const category = await CategoryModel.findById(req.params.categoryId);
-        
-        if(!category) {
-            return res.status(404).json({ status_code: "ERR_CAT_CATEGORY_NOTFOUND", message: 'A kategória nem található!' });
-        }
+        const { categoryId } = req.params;
 
-        return res.json(category);
+        fetchCategoryById(categoryId, (error) => {
+            return res.status(400).json(error);
+        }, (result) => {
+            return res.json(result);
+        });
     } catch (err) {
-        if(err.kind === "ObjectId") {
-            return res.status(400).json({ message: 'A kategória nem található!' });
-        }
         console.error(err.message);
         return res.status(500).send('Szerver hiba!');
     }
@@ -51,21 +46,23 @@ router.post('/', [
     // auth
     check('name', 'Kategória név megadása kötelező!').notEmpty(),
     check('color', 'Szín megadása kötelező!').notEmpty()
-], async (req, res) => {
+], (req, res) => {
     try {
         const errors = validationResult(req);
         if(!errors.isEmpty()){
             return res.status(400).json({ status_code: "ERR_VALIDATION_ERROR", errors: errors.array() });
         }
 
-        const newCategory = new CategoryModel({
+        const newCategory = {
             name: req.body.name,
             color: req.body.color
+        };
+
+        insertCategory(newCategory, (error) => {
+            return res.status(400).json(error);
+        }, (result) => {
+            return res.json(result);
         });
-
-        const category = await newCategory.save();
-
-        return res.json(category);
     } catch (err) {
         console.error(err);
         return res.status(500).send('Szerver hiba!');
@@ -79,29 +76,28 @@ router.put('/:categoryId', [
     // auth
     check('name', 'Kategória név megadása kötelező!').notEmpty(),
     check('color', 'Szín megadása kötelező!').notEmpty()
-], async (req, res) => {
+], (req, res) => {
     try {
         const errors = validationResult(req);
         if(!errors.isEmpty()){
             return res.status(400).json({ status_code: "ERR_VALIDATION_ERROR", errors: errors.array() });
         }
 
-        const category = await CategoryModel.findById(req.params.categoryId);
-        
-        if(!category){
-            return res.status(404).json({ status_code: "ERR_CAT_CATEGORY_NOTFOUND", message: 'Kategória nem található!' });
-        }
+        const { name, color } = req.body;
+        const { categoryId } = req.params;
 
-        category.name = req.body.name;
-        category.color = req.body.color;
+        const category = {
+            id: categoryId,
+            name,
+            color
+        };
 
-        await category.save();
-
-        return res.json(category);
+        updateCategory(category, (error) => {
+            return res.status(400).json(error);
+        }, (result) => {
+            return res.json(result);
+        });
     } catch (err) {
-        if(err.kind === "ObjectId") {
-            return res.status(400).json({ message: 'A kategória nem található!' });
-        }
         console.error(err.message);
         return res.status(500).send('Szerver hiba!');
     }
@@ -110,15 +106,16 @@ router.put('/:categoryId', [
 // @route  DELETE /api/categories/:categoryId
 // @desc   Delete a category
 // @access Private TODO
-router.delete('/:categoryId', /* auth */ async (req, res) => {
+router.delete('/:categoryId', /* auth */ (req, res) => {
     try {
-        await CategoryModel.findOneAndRemove({ _id: req.params.categoryId });
+        const { categoryId } = req.params;
 
-        return res.json({ status_code: "SUCCESS_CATEGORY_DELETED", message: 'Kategória sikeresen törölve!' });
+        deleteCategory(categoryId, (error) => {
+            return res.status(400).json(error);
+        }, (result) => {
+            return res.json(result);
+        });
     } catch (err) {
-        if(err.kind === "ObjectId") {
-            return res.status(400).json({ message: 'A kategória nem található!' });
-        }
         console.error(err.message);
         return res.status(500).send('Szerver hiba!');
     }
