@@ -39,7 +39,7 @@ class CategoryService {
 
             newCategory.save({}, (err, res) => {
                 if(err || !res) {
-                    error({ status_code: 'ERR_CAT_FAILED_INSERT', message: 'A kategória felvitele során hiba történt!', err });
+                    error({ status_code: 'ERR_CAT_FAILED_INSERT', message: 'A kategória felvitele során hiba történt!' });
                 } else {
                     success(res);
                 }
@@ -52,7 +52,7 @@ class CategoryService {
 
     updateCategory = (category, error, success) => {
         try {
-            CategoryModel.findOneAndUpdate({ _id: category.id }, {
+            CategoryModel.findOneAndUpdate({ _id: category.id, createdBy: category.createdBy }, {
                 name: category.name,
                 color: category.color
             }, (err, res) => {
