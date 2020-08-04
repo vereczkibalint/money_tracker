@@ -1,9 +1,9 @@
 const CategoryModel = require('../models/Category');
 
 class CategoryService {
-    fetchAllCategories = (error, success) => {
+    fetchAllCategories = (userId, error, success) => {
         try {
-            CategoryModel.find((err, res) => {
+            CategoryModel.find({ createdBy: userId }, (err, res) => {
                 if(err || !res) {
                     error({ status_code: 'ERR_CAT_NO_CATEGORIES', message: 'Nincsenek kategóriák!' });
                 } else {
@@ -16,9 +16,10 @@ class CategoryService {
         }    
     }
 
-    fetchCategoryById = (categoryId, error, success) => {
+    fetchCategoryById = (categoryData, error, success) => {
         try {
-            CategoryModel.findById(categoryId, {}, (err, res) => {
+            const { categoryId, userId } = categoryData;
+            CategoryModel.findById({ _id: categoryId, createdBy: userId }, {}, (err, res) => {
                 if(err || !res) {
                     error({ status_code: 'ERR_CAT_CATEGORY_NOTFOUND', message: 'A kategória nem található!' });
                 } else {
@@ -71,9 +72,10 @@ class CategoryService {
         }
     }
 
-    deleteCategory = (user, categoryId, error, success) => {
+    deleteCategory = (categoryData, error, success) => {
         try {
-            CategoryModel.findOneAndDelete({ _id: categoryId, createdBy: user }, (err, res) => {
+            const { categoryId, userId } = categoryData;
+            CategoryModel.findOneAndDelete({ _id: categoryId, createdBy: userId }, (err, res) => {
                 if(err || !res || res === null) {
                     error({ status_code: 'ERR_CATEGORY_FAILED_DELETE', message: 'A kategória törlése során hiba történt!' });
                 } else {
