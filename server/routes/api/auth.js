@@ -5,7 +5,7 @@ const { loginUser } = require('../../services/AuthService');
 
 const { check, validationResult } = require('express-validator');
 
-// @route  /api/auth
+// @route  POST /api/auth
 // @desc   Login user
 // @access Public
 router.post('/',
