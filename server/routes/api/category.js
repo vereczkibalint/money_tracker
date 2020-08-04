@@ -11,7 +11,8 @@ const { fetchAllCategories, fetchCategoryById, insertCategory, updateCategory, d
 // @access Private
 router.get('/', auth, (req, res) => { 
     try {
-        fetchAllCategories((error) => {
+        const { id: userId } = req.user;
+        fetchAllCategories(userId, (error) => {
             return res.status(400).json(error);
         }, (result) => {
             return res.json(result);
@@ -28,8 +29,11 @@ router.get('/', auth, (req, res) => {
 router.get('/:categoryId', auth, (req, res) => {
     try {
         const { categoryId } = req.params;
+        const { id: userId } = req.user;
 
-        fetchCategoryById(categoryId, (error) => {
+        const categoryData = { categoryId, userId };
+
+        fetchCategoryById(categoryData, (error) => {
             return res.status(400).json(error);
         }, (result) => {
             return res.json(result);
@@ -54,10 +58,13 @@ router.post('/', [
             return res.status(400).json({ status_code: "ERR_VALIDATION_ERROR", errors: errors.array() });
         }
 
+        const { name, color } = req.body;
+        const { id: userId } = req.user;
+
         const newCategory = {
-            name: req.body.name,
-            color: req.body.color,
-            createdBy: req.user.id.toString()
+            name,
+            color,
+            createdBy: userId.toString()
         };
 
         insertCategory(newCategory, (error) => {
@@ -113,9 +120,11 @@ router.put('/:categoryId', [
 router.delete('/:categoryId', auth, (req, res) => {
     try {
         const { categoryId } = req.params;
-        const { id } = req.user;
+        const { id: userId } = req.user;
 
-        deleteCategory(id.toString(), categoryId, (error) => {
+        const categoryData = { categoryId, userId };
+
+        deleteCategory(categoryData, (error) => {
             return res.status(400).json(error);
         }, (result) => {
             return res.json(result);
