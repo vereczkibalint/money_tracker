@@ -7,6 +7,9 @@ const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 const { fetchAllUsers, fetchUserById, registerUser, deleteUser, changePassword } = require('../../services/UserService');
 
+// @route  GET /api/users
+// @desc   Fetch all user
+// @access Public (YET) 
 router.get('/', (req, res) => {
     try {
         fetchAllUsers((error) => {
@@ -20,6 +23,9 @@ router.get('/', (req, res) => {
     }
 });
 
+// @route  GET /api/users/:userId
+// @desc   Fetches user by given userID
+// @access Public (YET) 
 router.get('/:userId', (req, res) => {
     try {
         const { userId } = req.params;
@@ -35,8 +41,8 @@ router.get('/:userId', (req, res) => {
     }
 });
 
-// @route POST /api/users/
-// @desc Register user
+// @route  POST /api/users/
+// @desc   Register user
 // @access Public
 router.post('/',
   check('lastName', 'Vezetéknév megadása kötelező!').notEmpty(),
@@ -68,8 +74,8 @@ router.post('/',
     }
 });
 
-// @route POST /api/users/password_change/:userId
-// @desc Modify users password
+// @route  POST /api/users/password_change/:userId
+// @desc   Modify users password
 // @access Private
 router.post('/password_change/:userId',
     auth,
@@ -107,8 +113,8 @@ router.post('/password_change/:userId',
     }
 });
 
-// @route DELETE /api/users/:userId
-// @desc Delete users data
+// @route  DELETE /api/users/:userId
+// @desc   Delete users data
 // @access Private
 router.delete('/:userId', auth, (req, res) => {
     try {
