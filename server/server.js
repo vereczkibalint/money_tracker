@@ -13,6 +13,8 @@ connectToDB();
 
 const categoryRouter = require('./routes/api/category');
 const userRouter = require('./routes/api/users');
+const authRouter = require('./routes/api/auth');
+const expensesRouter = require('./routes/api/expenses');
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
@@ -20,6 +22,8 @@ app.get('/', (req, res) => {
 
 app.use('/api/categories', categoryRouter);
 app.use('/api/users', userRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/expenses', expensesRouter);
 
 const PORT = process.env.PORT || 3001;
 
