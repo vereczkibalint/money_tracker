@@ -11,7 +11,6 @@ class AuthService {
           if(err || !user) {
             error({ status_code: 'ERR_AUTH_USER_NOTFOUND', message: 'Nincs ilyen felhasználó az adatbázisban!' });
           } else {
-            console.log(user);
             if(!bcrypt.compareSync(reqUser.password, user.password)) {
               error({ status_code: 'ERR_AUTH_FAILED', message: 'Sikertelen bejelentkezés!' });
             } else {
