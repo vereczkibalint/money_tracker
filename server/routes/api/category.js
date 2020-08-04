@@ -87,11 +87,13 @@ router.put('/:categoryId', [
 
         const { name, color } = req.body;
         const { categoryId } = req.params;
+        const { id: userId } = req.user;
 
         const category = {
             id: categoryId,
             name,
-            color
+            color,
+            createdBy: userId
         };
 
         updateCategory(category, (error) => {
