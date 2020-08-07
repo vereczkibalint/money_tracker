@@ -1,0 +1,35 @@
+@import '../../assets/styles/colors.css';
+
+.layout .sidebar {
+    background-color: inherit;
+    min-width: 20vw;
+}
+
+.menu ul {
+    margin: 0;
+    padding: 0;
+}
+
+.menu li.menu-item {
+    background-color: var(--bg-menu-primary-color);
+    border-radius: 25px;
+    padding: 10px;
+    margin: 20px auto;
+    width: 80%;
+    cursor: pointer;
+}
+
+.menu li.menu-item:hover {
+    background-color: var(--bg-money-secondary-color);
+}
+
+.menu li.menu-item.active {
+    background-color: var(--bg-money-secondary-color);
+}
+
+.menu-text {
+    vertical-align: middle;
+    font-size: 22px;
+    color: #ffffff;
+    text-shadow: 1px 1px var(--text-shadow-color);
+}
