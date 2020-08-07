@@ -1,10 +1,18 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './App.css';
+
+import Sidebar from './components/layout/Sidebar';
+import HomePage from './components/HomePage';
 
 const App = () => {
   return (
     <div className="App">
-      Hello World
+      <div className="layout">
+        <Sidebar />
+        <div className="content">
+          <HomePage />
+        </div>
+      </div>
     </div>
   );
 }
