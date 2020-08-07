@@ -1,0 +1,8 @@
+:root {
+    --bg-money-primary-color: rgba(79, 115, 2, 0.35);
+    --bg-money-secondary-color: rgba(79, 115, 2, 0.55);
+    --bg-menu-primary-color: rgba(131, 166, 3, 0.4);
+    --text-shadow-color: rgba(0, 0, 0, 0.5);
+    --icon-font-color: rgba(0, 63, 57);
+    --box-shadow-color: rgba(0, 0, 0, 0.2);
+}
