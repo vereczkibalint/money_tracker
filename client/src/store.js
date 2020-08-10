@@ -8,7 +8,6 @@ const store = createStore(
   applyMiddleware(thunk)
 );
 
-console.log(store.getState());
 window.store = store;
 
 export default store;
