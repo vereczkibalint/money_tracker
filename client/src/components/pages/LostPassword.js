@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
   registerForm: {
     display: 'flex',
     flexDirection: 'column',
-    width: 300
+    width: 400
   },
   loginInput: {
     marginBottom: 20

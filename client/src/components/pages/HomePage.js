@@ -1,5 +1,5 @@
 import React from 'react';
-import ExpenseBox from './ExpenseBox';
+import ExpenseBox from '../ExpenseBox';
 import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 

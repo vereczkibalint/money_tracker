@@ -1,21 +1,15 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import './Register.css';
 
 import { Link } from 'react-router-dom';
 
-import axios from 'axios';
-import { beginLogin, loginSuccessful, loginFailed } from '../actions/auth/auth';
-
 import { TextField, Button, makeStyles } from '@material-ui/core';
-
-
 
 const useStyles = makeStyles(theme => ({
   registerForm: {
     display: 'flex',
     flexDirection: 'column',
-    width: 300
+    width: 400
   },
   loginInput: {
     marginBottom: 20

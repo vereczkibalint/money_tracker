@@ -4,8 +4,8 @@ import './Login.css';
 
 import { Link } from 'react-router-dom';
 
-import axios from 'axios';
-import { beginLogin, loginSuccessful, loginFailed } from '../actions/auth/auth';
+import { login } from '../../actions/auth/auth';
+import Error from '../Error';
 
 import { TextField, Button, makeStyles } from '@material-ui/core';
 
@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   loginForm: {
     display: 'flex',
     flexDirection: 'column',
-    width: 300
+    width: 400
   },
   loginInput: {
     marginBottom: 20
@@ -34,35 +34,45 @@ const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState([]);
+
+  const errors = useSelector(state => state.auth.errors);
 
   const handleLogin = () => {
-    dispatch(beginLogin());
     if(email.length > 0 && password.length > 0) {
-      axios.post('api/auth', {
-        email, password
-      }, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(res => {
-        dispatch(loginSuccessful(res.data.token))
-      }).catch(err => {
-        if(err.response.data.message) {
-          dispatch(loginFailed(err.response.data.message));
-        } else {
-          dispatch(loginFailed(err.response.data.errors.errors));
+      const credentials = { email, password };
+      dispatch(login(credentials));
+    }
+    return;
+  }
+
+  const hasError = (type) => {
+    if(errors && errors.length > 0) {
+      errors.map(error => {
+        if('param' in error && error.param === type) {
+          return true;
         }
       });
+    }
+  }
+
+  const errorText = (type) => {
+    const error = hasError(type);
+    if(error !== undefined) {
+      return error.msg;
     }
     return;
   }
 
   return (
     <div className={classes.loginForm}>
+      {errors && errors.length > 0 && errors.map((error, index) => (
+        <Error error={error} key={index} />
+      ))}
       <TextField
         label="Email cím"
         type="email"
+        error={hasError('email')}
+        helperText={errorText('email')}
         className={classes.loginInput}
         value={email}
         onChange={(e) => setEmail(e.target.value)}
