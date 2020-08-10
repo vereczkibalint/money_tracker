@@ -1,9 +1,9 @@
-import { BEGIN_LOGIN, FAILED_LOGIN, SUCCESSFUL_LOGIN, LOGOUT } from '../actions/authActionTypes';
+import { BEGIN_LOGIN, LOGIN_SUCCESSFUL, LOGIN_FAILED, LOGOUT } from '../actions/auth/types';
 
 const authState = {
-  currentUser: [],
   isLoading: false,
-  error: []
+  error: [],
+  token: null
 };
 
 export default function auth(state = authState, action) {
@@ -13,16 +13,16 @@ export default function auth(state = authState, action) {
         ...state,
         isLoading: true
       }
-    case FAILED_LOGIN:
+    case LOGIN_FAILED:
       return {
         ...state,
         isLoading: false,
         error: action.payload.message
       };
-    case SUCCESSFUL_LOGIN:
+    case LOGIN_SUCCESSFUL:
       return {
         ...state,
-        currentUser: action.payload.user,
+        token: action.payload.token,
         isLoading: false
       };
     case LOGOUT:
