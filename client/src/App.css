@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
 * {
     list-style-type: none;
@@ -17,6 +17,9 @@
 }
 
 .layout .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     min-width: 75vw;
     background-color: #ffffff;
     -webkit-box-shadow: 6px 3px var(--box-shadow-color);
