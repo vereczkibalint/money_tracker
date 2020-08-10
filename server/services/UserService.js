@@ -10,14 +10,14 @@ class UserService {
     try{
       UserModel.find({}, { "password": 0 }, (err, res) => {
         if(err || !res) {
-          error({ status_code: 'ERR_USER_NO_USERS', message: 'Nincsenek felhasználók!' });
+          error({ status_code: 'ERR_USER_NO_USERS', msg: 'Nincsenek felhasználók!' });
         } else {
           success(res);
         }
       });
     } catch(err) {
       console.error(err.message);
-      error({ status_code: 'ERR_INTERNAL_SERVER', message: 'Szerver hiba!' });
+      error({ status_code: 'ERR_INTERNAL_SERVER', msg: 'Szerver hiba!' });
     }
     
   }
@@ -26,29 +26,29 @@ class UserService {
     try{
       UserModel.find({ _id: userId }, { "password": 0 }, (err, res) => {
         if(err || !res) {
-          error({ status_code: 'ERR_USER_NOTFOUND', message: 'Felhasználó nem található!' });
+          error({ status_code: 'ERR_USER_NOTFOUND', msg: 'Felhasználó nem található!' });
         } else {
           success(res);
         }
       });
     } catch(err) {
       if(err.kind === "ObjectId") {
-        error({ status_code: 'ERR_USER_NOTFOUND', message: 'Felhasználó nem található!' });
+        error({ status_code: 'ERR_USER_NOTFOUND', msg: 'Felhasználó nem található!' });
       }
       console.error(err.message);
-      error({ status_code: 'ERR_INTERNAL_SERVER', message: 'Szerver hiba!' });
+      error({ status_code: 'ERR_INTERNAL_SERVER', msg: 'Szerver hiba!' });
     }
   }
 
   registerUser = (user, error, success) => {
     try {
       if(user.password !== user.password_confirm) {
-        error({ status_code: 'ERR_USER_PASSWORD_NOTMATCH', message: 'A két jelszó nem egyezik meg!' });
+        error({ status_code: 'ERR_USER_PASSWORD_NOTMATCH', msg: 'A két jelszó nem egyezik meg!' });
       }
 
       UserModel.findOne({ email: user.email }, (err, res) => {
         if(res !== null) {
-          error({ status_code: 'ERR_USER_EMAIL_INUSE', message: 'Ezzel az email címmel már regisztráltak!' });
+          error({ status_code: 'ERR_USER_EMAIL_INUSE', msg: 'Ezzel az email címmel már regisztráltak!' });
         } else {
           const newUser = new UserModel(user);
 
@@ -56,7 +56,7 @@ class UserService {
 
           newUser.save({}, (err, res) => {
             if(err || !res) {
-              error({ status_code: 'ERR_USER_FAILED_REGISTER', message: 'Hiba történt a regisztráció közben!' }, err);
+              error({ status_code: 'ERR_USER_FAILED_REGISTER', msg: 'Hiba történt a regisztráció közben!' }, err);
             } else {
               const payload = {
                 user: {
@@ -83,7 +83,7 @@ class UserService {
       });
     } catch (err) {
       console.error(err.message);
-      error({ status_code: 'ERR_INTERNAL_SERVER', message: 'Szerver hiba!' });
+      error({ status_code: 'ERR_INTERNAL_SERVER', msg: 'Szerver hiba!' });
     }
   }
 
@@ -92,18 +92,18 @@ class UserService {
       const { id, old_password, password } = user;
       UserModel.findById(id, (err, userToUpdate) => {
         if(err || !userToUpdate) {
-          error({ status_code: 'ERR_USER_NOTFOUND', message: 'Felhasználó nem található!' });
+          error({ status_code: 'ERR_USER_NOTFOUND', msg: 'Felhasználó nem található!' });
         } else {
           if(!bcrypt.compareSync(old_password, userToUpdate.password)) {
-            error({ status_code: 'ERR_USER_FAILED_PASSWORDVERIFY', message: 'Hibás jelenlegi jelszó!' });
+            error({ status_code: 'ERR_USER_FAILED_PASSWORDVERIFY', msg: 'Hibás jelenlegi jelszó!' });
           } else {
             const hashedPassword = passwordHasher(password);
             userToUpdate.password = hashedPassword;
             userToUpdate.save({}, (err, result) => {
               if(err || !result) {
-                error({ status_code: 'ERR_USER_FAILED_PASSWORDCHANGE', message: 'Hiba történt a jelszómódosítás közben!' });
+                error({ status_code: 'ERR_USER_FAILED_PASSWORDCHANGE', msg: 'Hiba történt a jelszómódosítás közben!' });
               } else {
-                success({ message: 'Sikeres jelszómódosítás!' });
+                success({ msg: 'Sikeres jelszómódosítás!' });
               }
             });
           }    
@@ -111,10 +111,10 @@ class UserService {
       });
     } catch (err) {
       if(err.kind === "ObjectId") {
-        error({ status_code: 'ERR_USER_NOTFOUND', message: 'Felhasználó nem található!' });
+        error({ status_code: 'ERR_USER_NOTFOUND', msg: 'Felhasználó nem található!' });
       }
       console.error(err.message);
-      error({ status_code: 'ERR_INTERNAL_SERVER', message: 'Szerver hiba!' });
+      error({ status_code: 'ERR_INTERNAL_SERVER', msg: 'Szerver hiba!' });
     }
   }
 
@@ -122,17 +122,17 @@ class UserService {
     try {
       UserModel.findOneAndDelete({ _id: userId }, (err, res) => {
         if(err || !res || res === null) {
-          error({ status_code: 'ERR_USER_FAILED_DELETE', message: 'A felhasználó törlése során hiba történt!' });
+          error({ status_code: 'ERR_USER_FAILED_DELETE', msg: 'A felhasználó törlése során hiba történt!' });
         } else {
-            success({ message: 'Sikeres törlés!' });
+            success({ msg: 'Sikeres törlés!' });
         }
       });
     } catch (err) {
       if(err.kind === "ObjectId") {
-        error({ status_code: 'ERR_USER_NOTFOUND', message: 'Felhasználó nem található!' });
+        error({ status_code: 'ERR_USER_NOTFOUND', msg: 'Felhasználó nem található!' });
       }
       console.error(err.message);
-      error({ status_code: 'ERR_INTERNAL_SERVER', message: 'Szerver hiba!' });
+      error({ status_code: 'ERR_INTERNAL_SERVER', msg: 'Szerver hiba!' });
     }
   }
 }

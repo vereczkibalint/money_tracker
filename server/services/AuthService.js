@@ -9,10 +9,10 @@ class AuthService {
     loginUser = (reqUser, error, success) => {
         UserModel.findOne({ email: reqUser.email }, (err, user) => {
           if(err || !user) {
-            error({ status_code: 'ERR_AUTH_USER_NOTFOUND', message: 'Nincs ilyen felhasználó az adatbázisban!' });
+            error({ status_code: 'ERR_AUTH_USER_NOTFOUND', errors: [{ msg: 'Nincs ilyen felhasználó az adatbázisban!' }] });
           } else {
             if(!bcrypt.compareSync(reqUser.password, user.password)) {
-              error({ status_code: 'ERR_AUTH_FAILED', message: 'Sikertelen bejelentkezés!' });
+              error({ status_code: 'ERR_AUTH_FAILED', errors: [ { msg: 'Sikertelen bejelentkezés!' } ] });
             } else {
               const payload = {
                 user: {
@@ -30,7 +30,7 @@ class AuthService {
                   if(err) {
                     console.log(err);
                   } else {
-                    success({ token });
+                    success({ user: payload.user, token });
                   }
               });
             }
