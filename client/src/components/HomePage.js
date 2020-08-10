@@ -38,7 +38,7 @@ const HomePage = () => {
 
     return (
         <div>
-            <div className="filter-expenses" className={classes.filterExpenses}>
+            <div className={classes.filterExpenses}>
                 <TextField id="title" label="Keresés címben" className={classes.filterElement} />
                 <TextField
                     id="date"
