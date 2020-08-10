@@ -9,12 +9,13 @@ const { check, validationResult } = require('express-validator');
 // @desc   Login user
 // @access Public
 router.post('/',
-  check('email', 'Email megadása kötelező!').isEmail(),
-  check('password', 'Jelszó megadása kötelező!').isLength({ min: 6 })
+  check('email', 'Email formátum nem megfelelő!').isEmail(),
+  check('password', 'Jelszó megadása kötelező!').notEmpty()
 , (req, res) => {
-  const errors = validationResult(req);
-  if(!errors.isEmpty()){
-      return res.status(400).json({ status_code: 'ERR_VALIDATION_ERROR', errors: errors });
+  const validationErrors = validationResult(req);
+  if(!validationErrors.isEmpty()){
+      const { errors } = validationErrors;
+      return res.status(400).json({ status_code: 'ERR_VALIDATION_ERROR', errors });
   }
 
   const { email, password } = req.body;
