@@ -2,8 +2,9 @@ import { BEGIN_LOGIN, LOGIN_SUCCESSFUL, LOGIN_FAILED, LOGOUT } from '../actions/
 
 const authState = {
   isLoading: false,
-  error: [],
-  token: null
+  errors: [],
+  user: {},
+  token: {}
 };
 
 export default function auth(state = authState, action) {
@@ -11,24 +12,25 @@ export default function auth(state = authState, action) {
     case BEGIN_LOGIN:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
+        errors: []
       }
     case LOGIN_FAILED:
       return {
         ...state,
         isLoading: false,
-        error: action.payload.message
+        errors: action.payload.errors
       };
     case LOGIN_SUCCESSFUL:
       return {
         ...state,
-        token: action.payload.token,
-        isLoading: false
+        isLoading: false,
+        user: action.payload.user,
+        token: action.payload.token
       };
     case LOGOUT:
       return {
         ...state,
-        currentUser: null,
         isLoading: false
       };
     default:
