@@ -18,14 +18,14 @@
     display: inline-block;
 }
 
-.layout .logout {
+.layout .logout, .login {
     width: 80%;
     margin: 0px auto 1em auto;
     text-align: center;
     font-size: 14px;
 }
 
-.layout .btn-logout {
+.layout .btn-logout, .btn-login {
     width: 50%;
     background-color: #DB5D5D;
     border: 0;
@@ -34,7 +34,7 @@
     text-shadow: 1px 1px var(--text-shadow-color);
 }
 
-.layout .btn-logout:hover {
+.layout .btn-logout:hover, .btn-login:hover {
     background-color: #b35050;
 }
 
