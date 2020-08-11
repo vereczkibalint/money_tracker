@@ -1,3 +1,5 @@
+import React from 'react';
+
 import * as actions from './types';
 import axios from 'axios';
 
@@ -20,6 +22,8 @@ export const login = (credentials) => {
         headers: jsonHeader
       }).then(res => {
           dispatch(loginSuccessful(res.data.token, res.data.user));
+          localStorage.setItem('user', JSON.stringify(res.data.user));
+          localStorage.setItem('token', res.data.token);
       }).catch(err => {
         if(err.response.status === 400) {
           dispatch(loginFailed(err.response.data.errors));
