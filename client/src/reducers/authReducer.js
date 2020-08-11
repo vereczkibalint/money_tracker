@@ -1,10 +1,11 @@
 import { BEGIN_LOGIN, LOGIN_SUCCESSFUL, LOGIN_FAILED, LOGOUT } from '../actions/auth/types';
+import { faAssistiveListeningSystems } from '@fortawesome/free-solid-svg-icons';
 
 const authState = {
   isLoading: false,
   errors: [],
-  user: {},
-  token: {}
+  isAuthenticated: false,
+  currentUser: {}
 };
 
 export default function auth(state = authState, action) {
@@ -13,25 +14,29 @@ export default function auth(state = authState, action) {
       return {
         ...state,
         isLoading: true,
-        errors: []
+        errors: [],
+        isAuthenticated: true
       }
     case LOGIN_FAILED:
       return {
         ...state,
         isLoading: false,
-        errors: action.payload.errors
+        errors: action.payload.errors,
+        isAuthenticated: true
       };
     case LOGIN_SUCCESSFUL:
       return {
         ...state,
         isLoading: false,
-        user: action.payload.user,
-        token: action.payload.token
+        isAuthenticated: true,
+        currentUser: action.payload.user
       };
     case LOGOUT:
       return {
         ...state,
-        isLoading: false
+        isLoading: false,
+        isAuthenticated: false,
+        currentUser: {}
       };
     default:
       return state;
