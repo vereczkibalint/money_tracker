@@ -1,5 +1,4 @@
 import { BEGIN_LOGIN, LOGIN_SUCCESSFUL, LOGIN_FAILED, LOGOUT } from '../actions/auth/types';
-import { faAssistiveListeningSystems } from '@fortawesome/free-solid-svg-icons';
 
 const authState = {
   isLoading: false,
