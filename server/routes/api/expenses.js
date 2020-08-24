@@ -80,7 +80,7 @@ router.put('/:expenseId',
   check('title', 'Cím megadása kötelező!').notEmpty(),
   check('description', 'Leírás megadása kötelező!').notEmpty(),
   check('moneyType', 'Típus megadása kötelező!').custom(value => value === "income" || value === "expense"),
-  check('amount', 'Érték megadása kötelező!').isNumeric(),
+  check('amount', 'Érték megadása kötelező! (0-nál nagyobb érték)').isNumeric().custom(value => value > 0),
   check('issueDate', 'Dátum megadása kötelező!').isISO8601(),
 (req, res) => {
   try {

@@ -56,7 +56,7 @@ class CategoryService {
             CategoryModel.findOneAndUpdate({ _id: category.id, createdBy: category.createdBy }, {
                 name: category.name,
                 color: category.color
-            }, (err, res) => {
+            }, {returnOriginal:false}, (err, res) => {
                 if(err || !res) {
                     error({ status_code: 'ERR_CAT_FAILED_UPDATE', errors: [ {msg: 'A kategória módosítása során hiba történt!'}] });
                 } else {
