@@ -4,10 +4,15 @@
   border-radius: 10px;
 }
 
-.expense-info {
+.expense-info{
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.expense-actions {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .expense-info .expense-date {
