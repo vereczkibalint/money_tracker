@@ -21,7 +21,7 @@ const MoneyCard = ({ moneyData }) => {
                 year: 'numeric', 
           }).format(new Date(moneyData.issueDate))}
           </span>
-        {moneyData.type === 'expense' ? (
+        {moneyData.moneyType === 'expense' ? (
           <span className='text-danger font-weight-bold'>- {moneyData.amount},- Ft</span>
           ) : (
           <span className='text-success font-weight-bold'>+ {moneyData.amount},- Ft</span>

@@ -34,6 +34,8 @@ router.get('/',
 // @access Private
 router.post('/', 
   auth,
+  check('title', 'Cím megadása kötelező!').notEmpty(),
+  check('description', 'Leírás megadása kötelező!').notEmpty(),
   check('moneyType', 'Típus megadása kötelező!').custom(value => value === "income" || value === "expense"),
   check('amount', 'Érték megadása kötelező!').isNumeric(),
   check('issueDate', 'Dátum megadása kötelező!').isISO8601(),
@@ -44,10 +46,12 @@ router.post('/',
         return res.status(400).json({ status_code: "ERR_VALIDATION_ERROR", errors: errors.array() });
     }
 
-    const { moneyType, amount, issueDate } = req.body;
+    const { title, description, moneyType, amount, issueDate } = req.body;
     const { id: userId } = req.user;
   
     const moneyData = {
+      title,
+      description,
       ownedBy: userId.toString(),
       moneyType,
       amount,
@@ -73,6 +77,8 @@ router.post('/',
 // @access Private
 router.put('/:expenseId',
   auth,
+  check('title', 'Cím megadása kötelező!').notEmpty(),
+  check('description', 'Leírás megadása kötelező!').notEmpty(),
   check('moneyType', 'Típus megadása kötelező!').custom(value => value === "income" || value === "expense"),
   check('amount', 'Érték megadása kötelező!').isNumeric(),
   check('issueDate', 'Dátum megadása kötelező!').isISO8601(),
@@ -83,11 +89,13 @@ router.put('/:expenseId',
         return res.status(400).json({ status_code: "ERR_VALIDATION_ERROR", errors: errors.array() });
     }
 
-    const { moneyType, amount, issueDate } = req.body;
+    const { title, description, moneyType, amount, issueDate } = req.body;
     const { id: userId } = req.user;
     const { expenseId } = req.params;
   
     const moneyData = {
+      title,
+      description,
       expenseId,
       ownedBy: userId.toString(),
       moneyType,

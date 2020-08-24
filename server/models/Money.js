@@ -7,6 +7,12 @@ const MoneySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'user'
   },
+  title: {
+    type: String
+  },
+  description: {
+    type: String
+  },
   moneyType: {
     type: String,
     enum: ['income', 'expense'],
