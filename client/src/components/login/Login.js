@@ -4,7 +4,7 @@ import './Login.css';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 import { Form, Button } from 'react-bootstrap';
 
@@ -51,7 +51,9 @@ const Login = ({ login, isAuthenticated, authErrors }) => {
                             <Form.Label>Jelszó</Form.Label>
                             <Form.Control type="password" placeholder="Jelszó" value={password} onChange={(e) => setPassword(e.target.value)} />
                           </Form.Group>
-                            <p className="text-primary" role="button">Még nincs felhasználód?</p>
+                            <Link to="/register">
+                              <p>Nincs még felhasználód?</p>
+                            </Link>
                             <Button variant="primary" type="submit" onClick={(e) => handleLogin(e)}>
                               Belépés
                             </Button>

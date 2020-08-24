@@ -11,6 +11,7 @@ import Sidebar from './components/sidebar/Sidebar';
 import Navigation from './components/navigation/Navigation';
 
 import Login from './components/login/Login';
+import Register from './components/register/Register';
 import Dashboard from './components/dashboard/Dashboard';
 
 import store from './store';
@@ -18,7 +19,6 @@ import PrivateRoute from './components/PrivateRoute';
 
 function App({ isAuthenticated }) {
   useEffect(() => {
-    console.log('app render, loading user...');
     setAuthToken(localStorage.token);
     store.dispatch(loadUser());
   }, []);
@@ -31,7 +31,8 @@ function App({ isAuthenticated }) {
         { isAuthenticated ? ( <Navigation />) : '' }
           <div className="container-fluid">
               <Switch>
-                <Route path="/" exact component={Login} />
+                <Route path="/login" exact component={Login} />
+                <Route path="/register" exact component={Register} />
                 <PrivateRoute path="/dashboard" exact component={Dashboard} />
               </Switch>
           </div>
