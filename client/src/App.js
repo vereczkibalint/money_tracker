@@ -1,39 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 
-import { useSelector } from 'react-redux';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { setAuthToken, loadUser } from './services/authService';
 
-import { BrowserRouter as Router , Switch, Route } from 'react-router-dom';
+import Sidebar from './components/sidebar/Sidebar';
+import Navigation from './components/navigation/Navigation';
 
-import Sidebar from './components/layout/Sidebar';
-import HomePage from './components/pages/HomePage';
+import LandingPage from './components/landing-page/LandingPage';
+import Dashboard from './components/dashboard/Dashboard';
 
+import store from './store';
 import PrivateRoute from './components/PrivateRoute';
 
-import ActionButton from './components/layout/ActionButton';
-import Login from './components/pages/Login';
-import Register from './components/pages/Register';
-import LostPassword from './components/pages/LostPassword';
-
-const App = () => {
-  const user = useSelector(state => state.auth.currentUser);
+function App() {
+  
+  useEffect(() => {
+    console.log('app render, loading user...');
+    setAuthToken(localStorage.token);
+    store.dispatch(loadUser());
+  }, []);
 
   return (
-    <div className="App">
-      <div className="layout">
+    <div className="App d-flex" id="wrapper">
         <Router>
-          <Sidebar />
-          <div className="content">
-          <Switch>
-              <Route path="/login" exact component={Login} />
-              <Route path="/register" exact component={Register} />
-              <Route path="/password_recovery" exact component={LostPassword} />
-              <PrivateRoute path="/" exact component={HomePage} authUser={user} />
-            <ActionButton />
-          </Switch>
+        <Sidebar />
+        <div id="page-content-wrapper">
+        <Navigation />
+          <div className="container-fluid">
+              <Switch>
+                <Route path="/" exact component={LandingPage} />
+                <PrivateRoute path="/dashboard" exact component={Dashboard} />
+              </Switch>
           </div>
+        </div>
         </Router>
-      </div>
     </div>
   );
 }

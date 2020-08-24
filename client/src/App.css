@@ -1,28 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-
-* {
-    list-style-type: none;
-    font-family: 'Montserrat', sans-serif;
-}
-
 .App {
-    background-color: var(--bg-money-primary-color);
+  background-color: var(--bg-money-primary-color);
 }
 
-.layout {
-    display: flex;
-    flex-direction: row;
-    height: auto;
-    min-height: 100vh;
+#page-content-wrapper {
+  min-width: 100vw;
 }
 
-.layout .content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 75vw;
-    background-color: #ffffff;
-    -webkit-box-shadow: 6px 3px var(--box-shadow-color);
-    -moz-box-shadow: 6px 3px var(--box-shadow-color);
-    box-shadow: 6px 3px var(--box-shadow-color);
+@media(min-width: 768px) {
+  #page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+  }
 }

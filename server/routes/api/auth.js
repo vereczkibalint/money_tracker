@@ -1,9 +1,28 @@
 const express = require('express');
 const router = express.Router();
 
+const auth = require('../../middleware/auth');
 const { loginUser } = require('../../services/AuthService');
+const { fetchUserById } = require('../../services/UserService');
 
 const { check, validationResult } = require('express-validator');
+
+// @route   GET /api/auth
+// @desc    Get user by token
+// @access  Private
+router.get('/', auth, (req, res) => {
+  try {
+    fetchUserById(req.user.id, (error) => {
+      return res.status(400).json(error);
+    }, (result) => {
+      return res.json(result);
+    });
+    
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send('Szerver hiba!');
+  }
+});
 
 // @route  POST /api/auth
 // @desc   Login user

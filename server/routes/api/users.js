@@ -52,9 +52,10 @@ router.post('/',
   check('password_confirm', 'A két jelszó nem egyezik meg!').custom((value, { req }) => value === req.body.password)
 , (req, res) => {
     try {
-        const errors = validationResult(req);
-        if(!errors.isEmpty()){
-            return res.status(400).json({ status_code: "ERR_VALIDATION_ERROR", errors: errors });
+        const validationErrors = validationResult(req);
+        if(!validationErrors.isEmpty()){
+			const { errors } = validationErrors;
+            return res.status(400).json({ status_code: "ERR_VALIDATION_ERROR", errors });
         }
 
         const { lastName, firstName, email, password, password_confirm } = req.body;
@@ -84,9 +85,10 @@ router.post('/password_change/:userId',
     check('password_confirm', 'A két jelszó nem egyezik meg!').notEmpty().custom((value, { req }) => value === req.body.password)
 , (req, res) => {
     try {
-        const errors = validationResult(req);
-        if(!errors.isEmpty()){
-            return res.status(400).json({ status_code: "ERR_VALIDATION_ERROR", errors: errors });
+        const validationErrors = validationResult(req);
+        if(!validationErrors.isEmpty()){
+			const { errors } = validationErrors;
+            return res.status(400).json({ status_code: "ERR_VALIDATION_ERROR", errors });
         }
         const { userId } = req.params;
         const { id } = req.user;

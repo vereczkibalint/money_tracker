@@ -1,0 +1,22 @@
+.moneyCard {
+  width: 75%;
+  box-shadow: 2px 3px var(--text-shadow-color);
+  border-radius: 10px;
+}
+
+.expense-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.expense-info .expense-date {
+  display: flex;
+  align-items: center;
+}
+
+@media(max-width: 768px) {
+  .moneyCard {
+    min-width: 85vw;
+  }
+}
