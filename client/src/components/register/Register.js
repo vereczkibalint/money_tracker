@@ -38,7 +38,7 @@ const Register = ({ register, isAuthenticated, authErrors }) => {
     <section className="min-vh-100">
         <div className="container">
             <div className="row">
-                <div className="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
+                <div className="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-left form p-4">
                     <h1 className="display-4 py-2 text-black">Regisztráció</h1>
                     { authErrors ? authErrors.map((error, index) => (
                       <div className='alert alert-danger' key={index}>
