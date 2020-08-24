@@ -1,0 +1,17 @@
+.expense-filter, .dateFilter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  margin-left: 5px;
+}
+
+@media (min-width: 768px) {
+  .dateFilter {
+    flex-direction: row;
+  }
+}
