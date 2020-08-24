@@ -34,7 +34,7 @@ const Login = ({ login, isAuthenticated, authErrors }) => {
     <section className="min-vh-100">
         <div className="container">
             <div className="row">
-                <div className="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
+                <div className="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-left form p-4">
                     <h1 className="display-4 py-2 text-black">Bejelentkezés</h1>
                     { authErrors ? authErrors.map((error, index) => (
                       <div className='alert alert-danger' key={index}>
@@ -42,14 +42,14 @@ const Login = ({ login, isAuthenticated, authErrors }) => {
                       </div>
                     )) : ''}
                     <div className="px-2">
-                        <Form action="" className="justify-content-center">
+                        <Form className="justify-content-center">
                           <Form.Group controlId="email">
                             <Form.Label>Email cím</Form.Label>
-                            <Form.Control type="email" placeholder="Email cím" value={email} onChange={(e) => setEmail(e.target.value)} />
+                            <Form.Control type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                           </Form.Group>
                           <Form.Group controlId="password">
                             <Form.Label>Jelszó</Form.Label>
-                            <Form.Control type="password" placeholder="Jelszó" value={password} onChange={(e) => setPassword(e.target.value)} />
+                            <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                           </Form.Group>
                             <Link to="/register">
                               <p>Nincs még felhasználód?</p>
