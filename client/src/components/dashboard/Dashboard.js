@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import './Dashboard.css';
 
 import { connect } from 'react-redux';
@@ -10,6 +10,8 @@ import MoneyCard from '../money-card/MoneyCard';
 import ExpenseFilter from '../expense-filter/ExpenseFilter';
 
 const Dashboard = ({ expenses, fetchAllExpenses }) => {
+  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchAllExpenses();
   }, []);
@@ -18,7 +20,7 @@ const Dashboard = ({ expenses, fetchAllExpenses }) => {
     <Fragment>
       <h2 className="text-center mt-3">Összegzés</h2>
       <ExpenseFilter />
-      {expenses.length > 0 && expenses.map(moneyData => {
+      {expenses && expenses.length > 0 && expenses.map(moneyData => {
           return <MoneyCard moneyData={moneyData} key={moneyData._id} />;
       })}
     </Fragment>
