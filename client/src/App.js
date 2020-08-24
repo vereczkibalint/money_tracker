@@ -31,9 +31,10 @@ function App({ isAuthenticated }) {
         { isAuthenticated ? ( <Navigation />) : '' }
           <div className="container-fluid">
               <Switch>
-                <Route path="/login" exact component={Login} />
-                <Route path="/register" exact component={Register} />
-                <PrivateRoute path="/dashboard" exact component={Dashboard} />
+                <Route path="/" exact component={Login} />
+                <Route path="/login" component={Login} />
+                <Route path="/register" component={Register} />
+                <PrivateRoute path="/dashboard" component={Dashboard} />
               </Switch>
           </div>
         </div>
