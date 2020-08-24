@@ -26,6 +26,10 @@
   box-shadow: 0px 1px var(--text-shadow-color);
 }
 
+.list-group-flush > .list-group-item-active {
+  background-color: var(--bg-money-secondary-color);
+}
+
 .list-group-flush > .list-group-item:hover {
   color: #FFFFFF;
   background-color: var(--bg-money-secondary-color);

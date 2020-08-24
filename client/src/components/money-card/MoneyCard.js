@@ -6,7 +6,7 @@ import { Card } from 'react-bootstrap';
 const MoneyCard = ({ moneyData }) => {
   return (
     <Card className="m-4 mx-auto moneyCard">
-      <Card.Header className='bg-white border-0'>
+      <Card.Header className='border-0'>
         <h4>{moneyData.title}</h4>
       </Card.Header>
       <Card.Body>

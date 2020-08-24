@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import { logout } from  '../../services/authService';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWallet, faCreditCard, faTrophy, faCog, faCaretRight }from '@fortawesome/free-solid-svg-icons';
+import { faTrophy, faCog, faCaretRight, faListAlt }from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = ({ logout, user }) => {
 
@@ -45,6 +45,13 @@ const Sidebar = ({ logout, user }) => {
               <div className="ml-auto p-2 menu-icon"><FontAwesomeIcon icon={faCaretRight} /></div>
             </div>
           </Link> */ }
+          <Link to="#" className="list-group-item list-group-item-action list-group-item-active">
+            <div className="d-flex">
+              <div className="p-2 menu-icon"><FontAwesomeIcon icon={faListAlt} style={{fontSize: '24px'}}/></div>
+              <div className="p-2"><span className="menu-text">Összegzés</span></div>
+              <div className="ml-auto p-2 menu-icon"><FontAwesomeIcon icon={faCaretRight} /></div>
+            </div>
+          </Link>
           <Link to="#" className="list-group-item list-group-item-action">
             <div className="d-flex">
               <div className="p-2 menu-icon"><FontAwesomeIcon icon={faTrophy} style={{fontSize: '24px'}}/></div>

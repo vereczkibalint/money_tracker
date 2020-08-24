@@ -49,23 +49,23 @@ const Register = ({ register, isAuthenticated, authErrors }) => {
                         <Form action="" className="justify-content-center">
                           <Form.Group controlId="lastName">
                             <Form.Label>Vezetéknév</Form.Label>
-                            <Form.Control type="text" placeholder="Vezetéknév" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                            <Form.Control type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
                           </Form.Group>
                           <Form.Group controlId="firstName">
                             <Form.Label>Keresztnév</Form.Label>
-                            <Form.Control type="text" placeholder="Keresztnév" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                            <Form.Control type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
                           </Form.Group>
                           <Form.Group controlId="email">
                             <Form.Label>Email cím</Form.Label>
-                            <Form.Control type="email" placeholder="Email cím" value={email} onChange={(e) => setEmail(e.target.value)} />
+                            <Form.Control type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                           </Form.Group>
                           <Form.Group controlId="password">
                             <Form.Label>Jelszó</Form.Label>
-                            <Form.Control type="password" placeholder="Jelszó" value={password} onChange={(e) => setPassword(e.target.value)} />
+                            <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                           </Form.Group>
                           <Form.Group controlId="passwordConfirm">
                             <Form.Label>Jelszó megerősítése</Form.Label>
-                            <Form.Control type="password" placeholder="Jelszó megerősítése" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} />
+                            <Form.Control type="password" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} />
                           </Form.Group>
                           <Link to="/login">
                             <p>Van már felhasználód?</p>
