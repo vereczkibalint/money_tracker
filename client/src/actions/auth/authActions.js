@@ -1,4 +1,4 @@
-import { AUTH_SUCCESSFUL, AUTH_FAILED, AUTH_LOGOUT, USER_LOADED } from './authActionTypes';
+import { AUTH_SUCCESSFUL, AUTH_FAILED, AUTH_LOGOUT, USER_LOADED, REGISTER_SUCCESSFUL, REGISTER_FAILED } from './authActionTypes';
 
 export const successfulAuth = (token, user) => {
   return {
@@ -30,6 +30,25 @@ export const userLoaded = (user) => {
     type: USER_LOADED,
     payload: {
       user
+    }
+  }
+}
+
+export const registerSuccessful = (token, user) => {
+  return {
+    type: REGISTER_SUCCESSFUL,
+    payload: {
+      token,
+      user
+    }
+  }
+}
+
+export const registerFailed = (errors) => {
+  return {
+    type: REGISTER_FAILED,
+    payload: {
+      errors
     }
   }
 }

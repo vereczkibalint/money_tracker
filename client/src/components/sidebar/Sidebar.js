@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import './Sidebar.css';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
@@ -11,41 +11,24 @@ import { logout } from  '../../services/authService';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWallet, faCreditCard, faTrophy, faCog, faCaretRight }from '@fortawesome/free-solid-svg-icons';
-import AuthModal from '../auth/AuthModal';
 
-const Sidebar = ({ isAuthenticated, logout, user }) => {
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authMode, setAuthMode] = useState('login');
+const Sidebar = ({ logout, user }) => {
 
   return (
     <Fragment>
       <div id="sidebar-wrapper">
         <div className="sidebar-heading">
               <div className="user-info">
-                  {isAuthenticated ? (
-                    <Fragment>
-                      <span className="user-img">
-                        <img src={profileImg} className="sidebarAvatar" alt="profilkép" />
-                      </span>
-                      <span className="user-welcome">
-                        Üdvözlünk, {user.firstName}!
-                      </span>
-                      <div className="logout">
-                        <Button variant="danger" size="sm" onClick={() => logout()}>Kilépés</Button>
-                      </div>
-                    </Fragment>
-                    ) : (
-                      <div className="login">
-                        <Button variant="danger" size="sm" onClick={() => setShowAuthModal(true)}>Belépés</Button>
-                      </div>
-                    )}
+                  <span className="user-img">
+                    <img src={profileImg} className="sidebarAvatar" alt="profilkép" />
+                  </span>
+                  <span className="user-welcome">
+                    Üdvözlünk, {user.firstName}!
+                  </span>
+                  <div className="logout">
+                    <Button variant="danger" size="sm" onClick={() => logout()}>Kilépés</Button>
+                  </div>
               </div>
-              <AuthModal 
-                show={showAuthModal} 
-                authMode={authMode} 
-                setAuthMode={setAuthMode}
-                setShow={setShowAuthModal}
-              />
         </div>
         <div className="list-group list-group-flush">
           <Link to="#" className="list-group-item list-group-item-action">
@@ -84,12 +67,10 @@ const Sidebar = ({ isAuthenticated, logout, user }) => {
 
 Sidebar.propTypes = {
   logout: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
   user: PropTypes.object
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated,
   user: state.auth.user
 });
 

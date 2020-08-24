@@ -74,7 +74,7 @@ class UserService {
                   if(err) {
                     throw err;
                   } else {
-                    success({ token });
+                    success({ user: payload.user, token });
                   }
               });
             }

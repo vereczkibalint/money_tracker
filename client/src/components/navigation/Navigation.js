@@ -7,12 +7,8 @@ import PropTypes from 'prop-types';
 
 import { logout } from  '../../services/authService';
 
-import AuthModal from '../auth/AuthModal';
 
 const Navigation = ({ isAuthenticated, logout, user }) => {
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authMode, setAuthMode] = useState('login');
-
   return (
     <Fragment>
     <nav className="navbar navbar-expand-md navbar-light bg-light mobile-only-nav">
@@ -44,28 +40,16 @@ const Navigation = ({ isAuthenticated, logout, user }) => {
           ) : (
             <Fragment>
             <li className="nav-item">
-              <Link className="nav-link" to="#" onClick={() => {
-                setAuthMode('login');
-                setShowAuthModal(true);
-              }}>Bejelentkezés</Link>
+              <Link className="nav-link" to="#">Bejelentkezés</Link>
             </li>
             <li className="nav-item">
-                <Link className="nav-link" to="#" onClick={() => {
-                  setAuthMode('register');
-                  setShowAuthModal(true);
-                }}>Regisztráció</Link>
+                <Link className="nav-link" to="#">Regisztráció</Link>
             </li>
             </Fragment>
             )}
         </ul>
       </div>
     </nav>
-      <AuthModal 
-      show={showAuthModal} 
-      authMode={authMode} 
-      setAuthMode={setAuthMode}
-      setShow={setShowAuthModal}
-      />
     </Fragment>
   );
 }
