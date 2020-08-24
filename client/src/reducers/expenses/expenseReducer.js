@@ -1,4 +1,4 @@
-import { EXPENSES_FETCHED, EXPENSE_FETCH_FAILED, EXPENSE_FILTER_BY_SEARCHTERM } from '../../actions/expenses/expensesActionTypes';
+import { EXPENSES_FETCHED, EXPENSE_FETCH_FAILED, EXPENSE_UPDATED, EXPENSE_UPDATE_FAILED, EXPENSE_DELETED, EXPENSE_DELETE_FAILED, EXPENSE_FILTER_BY_SEARCHTERM } from '../../actions/expenses/expensesActionTypes';
 
 const initialState = {
   expenses: [],
@@ -14,6 +14,32 @@ const expenseReducer = (state = initialState, action) => {
         expenses: payload.expenses
       }
     case EXPENSE_FETCH_FAILED:
+      return {
+        ...state,
+        errors: payload.errors
+      }
+    case EXPENSE_UPDATED:
+      return {
+        ...state,
+        expenses: state.expenses.map(expense => {
+          if(expense._id === payload.expense._id) {
+            return payload.expense;
+          }
+
+          return expense;
+        })
+      }
+    case EXPENSE_UPDATE_FAILED:
+      return {
+        ...state,
+        errors: payload.errors
+      }
+    case EXPENSE_DELETED: 
+      return {
+        ...state,
+        expenses: state.expenses.filter(expense => expense._id !== payload.expense_id)
+      }
+    case EXPENSE_DELETE_FAILED: 
       return {
         ...state,
         errors: payload.errors

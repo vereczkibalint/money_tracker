@@ -1,6 +1,6 @@
 import api from '../utils/api';
 
-import { expenseFetched, expenseFetchFailed, expenseFilterBySearchTerm } from '../actions/expenses/expenseActions';
+import { expenseFetched, expenseFetchFailed, expenseUpdated, expenseUpdateFailed, expenseDeleted, expenseDeleteFailed, expenseFilterBySearchTerm } from '../actions/expenses/expenseActions';
 
 const API_PATH = '/expenses';
 
@@ -11,6 +11,28 @@ export const fetchAllExpenses = () => {
     }).catch(err => {
       const { errors } = err.response.data;
       dispatch(expenseFetchFailed(errors));
+    })
+  }
+}
+
+export const updateExpense = (expense) => {
+  return (dispatch) => {
+    api.put(API_PATH+`/${expense._id}`, expense).then(response => {
+      dispatch(expenseUpdated(response.data));
+    }).catch(err => {
+      const { errors } = err.response.data;
+      dispatch(expenseUpdateFailed(errors));
+    })
+  }
+}
+
+export const deleteExpense = (expense_id) => {
+  return (dispatch) => {
+    api.delete(API_PATH + `/${expense_id}`).then(response => {
+      dispatch(expenseDeleted(expense_id));
+    }).catch(err => {
+      const { errors } = err.response.data;
+      dispatch(expenseDeleteFailed(errors));
     })
   }
 }
