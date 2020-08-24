@@ -31,7 +31,7 @@ const Sidebar = ({ logout, user }) => {
               </div>
         </div>
         <div className="list-group list-group-flush">
-          <Link to="#" className="list-group-item list-group-item-action">
+          { /* <Link to="#" className="list-group-item list-group-item-action">
             <div className="d-flex">
               <div className="p-2 menu-icon"><FontAwesomeIcon icon={faWallet} /></div>
               <div className="p-2"><span className="menu-text">Bevételek</span></div>
@@ -44,19 +44,19 @@ const Sidebar = ({ logout, user }) => {
               <div className="p-2"><span className="menu-text">Kiadások</span></div>
               <div className="ml-auto p-2 menu-icon"><FontAwesomeIcon icon={faCaretRight} /></div>
             </div>
-          </Link>
+          </Link> */ }
           <Link to="#" className="list-group-item list-group-item-action">
             <div className="d-flex">
-              <div className="p-2 menu-icon"><FontAwesomeIcon icon={faTrophy} /></div>
+              <div className="p-2 menu-icon"><FontAwesomeIcon icon={faTrophy} style={{fontSize: '24px'}}/></div>
               <div className="p-2"><span className="menu-text">Kihívások</span></div>
-              <div className="ml-auto p-2 menu-icon"><FontAwesomeIcon icon={faCaretRight} /></div>
+              <div className="ml-auto p-2 menu-icon"><FontAwesomeIcon icon={faCaretRight} style={{fontSize: '24px'}}/></div>
             </div>
           </Link>
           <Link to="#" className="list-group-item list-group-item-action">
             <div className="d-flex">
-              <div className="p-2 menu-icon"><FontAwesomeIcon icon={faCog} /></div>
+              <div className="p-2 menu-icon"><FontAwesomeIcon icon={faCog} style={{fontSize: '24px'}}/></div>
               <div className="p-2"><span className="menu-text">Beállítások</span></div>
-              <div className="ml-auto p-2 menu-icon"><FontAwesomeIcon icon={faCaretRight} /></div>
+              <div className="ml-auto p-2 menu-icon"><FontAwesomeIcon icon={faCaretRight} style={{fontSize: '24px'}}/></div>
             </div>
           </Link>
         </div>
