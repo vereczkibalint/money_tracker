@@ -1,4 +1,4 @@
-import { EXPENSES_FETCHED, EXPENSE_FETCH_FAILED } from '../../actions/expenses/expensesActionTypes';
+import { EXPENSES_FETCHED, EXPENSE_FETCH_FAILED, EXPENSE_FILTER_BY_SEARCHTERM } from '../../actions/expenses/expensesActionTypes';
 
 const initialState = {
   expenses: [],
@@ -17,6 +17,11 @@ const expenseReducer = (state = initialState, action) => {
       return {
         ...state,
         errors: payload.errors
+      }
+    case EXPENSE_FILTER_BY_SEARCHTERM:
+      return {
+        ...state,
+        expenses: state.expenses.filter(expense => expense.title.toLowerCase().includes(payload.searchTerm.toLowerCase()) || expense.description.toLowerCase().includes(payload.searchTerm.toLowerCase()))
       }
     default:
       return state;

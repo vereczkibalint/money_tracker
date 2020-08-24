@@ -1,6 +1,6 @@
 import api from '../utils/api';
 
-import { expenseFetched, expenseFetchFailed } from '../actions/expenses/expenseActions';
+import { expenseFetched, expenseFetchFailed, expenseFilterBySearchTerm } from '../actions/expenses/expenseActions';
 
 const API_PATH = '/expenses';
 
@@ -12,5 +12,11 @@ export const fetchAllExpenses = () => {
       const { errors } = err.response.data;
       dispatch(expenseFetchFailed(errors));
     })
+  }
+}
+
+export const filterExpensesBySearchTerm = (searchTerm) => {
+  return (dispatch) => {
+    dispatch(expenseFilterBySearchTerm(searchTerm));
   }
 }
