@@ -20,14 +20,15 @@ const Navigation = ({ isAuthenticated, logout, user }) => {
       <div className="collapse navbar-collapse" id="mobileOnlyNavigation">
         <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
           <li className="nav-item active">
-            <Link className="nav-link" to="#">Főoldal <span className="sr-only">(jelenlegi)</span></Link>
+            <Link className="nav-link" to="#">Összegzés <span className="sr-only">(jelenlegi)</span></Link>
           </li>
-          <li className="nav-item">
+          { /* <li className="nav-item">
             <Link className="nav-link" to="#">Bevételek</Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="#">Kiadások</Link>
           </li>
+          */ }
           <li className="nav-item">
             <Link className="nav-link" to="#">Kihívások</Link>
           </li> 
