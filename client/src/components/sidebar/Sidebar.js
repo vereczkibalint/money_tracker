@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import { logout } from  '../../services/authService';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrophy, faCog, faCaretRight, faListAlt }from '@fortawesome/free-solid-svg-icons';
+import { faTrophy, faCog, faCaretRight, faListAlt, faExchangeAlt }from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = ({ logout, user }) => {
 
@@ -36,10 +36,10 @@ const Sidebar = ({ logout, user }) => {
           <NavLink to="/dashboard/transactions" className="list-group-item list-group-item-action" activeClassName="menu-active">
             <div className="d-flex">
               <div className="p-2 menu-icon">
-                <FontAwesomeIcon icon={faListAlt} style={{fontSize: '24px'}}/>
+                <FontAwesomeIcon icon={faExchangeAlt} style={{fontSize: '24px'}}/>
               </div>
               <div className="p-2">
-                <span className="menu-text">Összegzés</span>
+                <span className="menu-text">Tranzakciók</span>
               </div>
               <div className="ml-auto p-2 menu-icon">
                 <FontAwesomeIcon icon={faCaretRight} />

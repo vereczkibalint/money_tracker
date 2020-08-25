@@ -22,7 +22,7 @@ const ChallengeCard = ({ challengeData, challengeErrors, updateChallengeSaving, 
   const handleSavingChange = (challengeId) => {
     const savingAmount = window.prompt("Félretett pénz (Ft):", 0);
 
-    if(savingAmount <= 0) return;
+    if(savingAmount <= 0 || isNaN(savingAmount)) return;
     
     const challengeData = {
       _id: challengeId,
@@ -40,31 +40,45 @@ const ChallengeCard = ({ challengeData, challengeErrors, updateChallengeSaving, 
           </div>
       ))}
       <Card className="m-4 mx-auto moneyCard">
-        <Card.Header 
+        {challengeData.completed ? (
+          <Card.Header 
           className="border-0"
-          style={ challengeData.completed ?
-              { background: 'linear-gradient(rgba(80, 116, 2, 0.9), rgba(80, 116, 2, 0.8))', color: '#FFFFFF'} 
-              : {backgroundColor: '#FFFFFF'} }>
-          <h4 className= { challengeData.completed ? 'text-white' : 'text-black'}
+          style={{ background: 'linear-gradient(rgba(80, 116, 2, 0.9), rgba(80, 116, 2, 0.8))', color: '#FFFFFF'}}>
+          <h4 className='text-white'
             style={{textShadow: '1px 1px #000000'}}>
               {challengeData.title}
           </h4>
           <div className="expense-actions">
-            {!challengeData.completed && new Date(challengeData.deadline) > new Date() ? (
-              <Fragment>
-                <span className="mr-3" role="button">
-                  <FontAwesomeIcon icon={faPlus} style={{color: '#000000'}} onClick={() => handleSavingChange(challengeData._id)} />
-                </span>
-                <span className="mr-3" role="button">
-                  <FontAwesomeIcon icon={faPen} style={{color: '#000000'}} />
-                </span>
-              </Fragment>
-            ) : ''}
             <span role="button">
-              <FontAwesomeIcon icon={faTrash} style={{color: '#000000'}} onClick={() => handleDelete(challengeData._id)}/>
+              <FontAwesomeIcon icon={faTrash} style={{color: '#FFFFFF'}} onClick={() => handleDelete(challengeData._id)}/>
             </span>
           </div>
         </Card.Header>
+        ) : (
+        <Card.Header 
+          className="border-0"
+          style={{ color: '#FFFFFF', background: 'linear-gradient(rgba(200, 35, 51, 0.9), rgba(200, 35, 51, 0.8))'}}>
+          <h4 className='text-black'
+            style={{textShadow: '1px 1px #000000'}}>
+              {challengeData.title}
+          </h4>
+          <div className="expense-actions">
+            {new Date(challengeData.deadline) > new Date() && (
+              <Fragment>
+                <span className="mr-3" role="button">
+                  <FontAwesomeIcon icon={faPlus} style={{color: '#FFFFFF'}} onClick={() => handleSavingChange(challengeData._id)} />
+                </span>
+                <span className="mr-3" role="button">
+                  <FontAwesomeIcon icon={faPen} style={{color: '#FFFFFF'}} />
+                </span>
+              </Fragment>
+            )}
+            <span role="button">
+              <FontAwesomeIcon icon={faTrash} style={{color: '#FFFFFF'}} onClick={() => handleDelete(challengeData._id)}/>
+            </span>
+          </div>
+        </Card.Header>
+        )}
         <Card.Body>
           {challengeData.description}
         </Card.Body>
