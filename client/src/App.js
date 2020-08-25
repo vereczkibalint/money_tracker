@@ -13,10 +13,12 @@ import Navigation from './components/navigation/Navigation';
 import Login from './components/login/Login';
 import Register from './components/register/Register';
 import Dashboard from './components/dashboard/Dashboard';
-import FloatingActionButton from './components/FloatingActionButton';
+import FloatingActionButton from './components/floating-action-button/FloatingActionButton';
 
 import store from './store';
 import PrivateRoute from './components/PrivateRoute';
+import ChallengeDashboard from './components/challenge-dashboard/ChallengeDashboard';
+import Settings from './components/settings/Settings';
 
 function App({ isAuthenticated }) {
   useEffect(() => {
@@ -35,7 +37,9 @@ function App({ isAuthenticated }) {
                 <Route path="/" exact component={Login} />
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
-                <PrivateRoute path="/dashboard" component={Dashboard} />
+                <PrivateRoute exact path="/dashboard/transactions" component={Dashboard} />
+                <PrivateRoute exact path="/dashboard/challenges" component={ChallengeDashboard} />
+                <PrivateRoute exact path="/settings" component={Settings} />
               </Switch>
               { isAuthenticated ? <FloatingActionButton /> : '' }
           </div>
