@@ -16,7 +16,7 @@ router.get('/',
   try {
     const { id: userId } = req.user;
     fetchExpense(userId.toString(), (error) => {
-      return res.status(400).json({ status_code: error.status_code, message: error.message });
+      return res.status(400).json({ status_code: error.status_code, errors: [ {msg: error.message} ] });
     }, (result) => {
       return res.json(result);
     });
@@ -25,7 +25,7 @@ router.get('/',
       error({ status_code: 'ERR_EXPENSE_NOTFOUND', message: 'Kiadás nem található!' });
     }
     console.error(err.message);
-    return res.status(500).json({ status_code: 'ERR_INTERNAL_SERVER', message: 'Szerver hiba!' });
+    return res.status(500).json({ status_code: 'ERR_INTERNAL_SERVER', errors: [ {msg: 'Szerver hiba!'}] });
   }
 });
 
@@ -41,10 +41,11 @@ router.post('/',
   check('issueDate', 'Dátum megadása kötelező!').isISO8601(),
 (req, res) => {
   try{
-    const errors = validationResult(req);
-    if(!errors.isEmpty()){
-        return res.status(400).json({ status_code: "ERR_VALIDATION_ERROR", errors: errors.array() });
-    }
+    const validationErrors = validationResult(req);
+	if(!validationErrors.isEmpty()){
+		const { errors } = validationErrors;
+		return res.status(400).json({ status_code: 'ERR_VALIDATION_ERROR', errors });
+	}
 
     const { title, description, moneyType, amount, issueDate } = req.body;
     const { id: userId } = req.user;
@@ -59,16 +60,16 @@ router.post('/',
     }
   
     insertExpense(moneyData, (error) => {
-      return res.status(400).json({ status_code: error.status_code, message: error.message });
+      return res.status(400).json(error);
     }, (result) => {
       return res.json(result);
     });
   } catch (err) {
     if(err.kind === "ObjectId") {
-      error({ status_code: 'ERR_EXPENSE_FAILED_INSERT', message: 'Hiba történt az összeg mentése közben!' });
+      error({ status_code: 'ERR_EXPENSE_FAILED_INSERT', errors: [ { msg: 'Hiba történt az összeg mentése közben!'} ] });
     }
     console.error(err.message);
-    return res.status(500).json({ status_code: 'ERR_INTERNAL_SERVER', message: 'Szerver hiba!' });
+    return res.status(500).json({ status_code: 'ERR_INTERNAL_SERVER', errors: [ { msg: 'Szerver hiba!'}] });
   }
 });
 
@@ -84,10 +85,11 @@ router.put('/:expenseId',
   check('issueDate', 'Dátum megadása kötelező!').isISO8601(),
 (req, res) => {
   try {
-    const errors = validationResult(req);
-    if(!errors.isEmpty()){
-        return res.status(400).json({ status_code: "ERR_VALIDATION_ERROR", errors: errors.array() });
-    }
+    const validationErrors = validationResult(req);
+	if(!validationErrors.isEmpty()){
+      const { errors } = validationErrors;
+      return res.status(400).json({ status_code: 'ERR_VALIDATION_ERROR', errors });
+	}
 
     const { title, description, moneyType, amount, issueDate } = req.body;
     const { id: userId } = req.user;
@@ -104,17 +106,17 @@ router.put('/:expenseId',
     }
 
     updateExpense(moneyData, (error) => {
-      return res.status(400).json({ status_code: error.status_code, message: error.message });
+      return res.status(400).json({ status_code: error.status_code, errors: [ { msg: error.message}] });
     }, (result) => {
       return res.json(result);
     });
 
   } catch (err) {
     if(err.kind === "ObjectId") {
-      error({ status_code: 'ERR_EXPENSE_FAILED_INSERT', message: 'Hiba történt az összeg mentése közben!' });
+      error({ status_code: 'ERR_EXPENSE_FAILED_INSERT', errors: [ { msg: 'Hiba történt az összeg mentése közben!' }] });
     }
     console.error(err.message);
-    return res.status(500).json({ status_code: 'ERR_INTERNAL_SERVER', message: 'Szerver hiba!' });
+    return res.status(500).json({ status_code: 'ERR_INTERNAL_SERVER', errors: [ { msg: 'Szerver hiba!' }] });
   }
 });
 
@@ -128,17 +130,17 @@ router.delete('/:expenseId', auth, (req, res) => {
 
     const moneyData = { expenseId, userId };
     deleteExpense(moneyData, (error) => {
-      return res.status(400).json({ status_code: error.status_code, message: error.message });
+      return res.status(400).json({ status_code: error.status_code, errors: [ { msg: error.message }] });
     }, (result) => {
       return res.json(result);
     })
 
   } catch (err) {
     if(err.kind === "ObjectId") {
-      error({ status_code: 'ERR_EXPENSE_FAILED_INSERT', message: 'Hiba történt az összeg mentése közben!' });
+      error({ status_code: 'ERR_EXPENSE_FAILED_INSERT', errors: [ { msg: 'Hiba történt az összeg mentése közben!' }] });
     }
     console.error(err.message);
-    return res.status(500).json({ status_code: 'ERR_INTERNAL_SERVER', message: 'Szerver hiba!' });
+    return res.status(500).json({ status_code: 'ERR_INTERNAL_SERVER', errors: [ { msg: 'Szerver hiba!' }] });
   }
 });
 
