@@ -46,6 +46,19 @@ export const updateChallenge = (challenge) => {
   }
 }
 
+export const updateChallengeSaving = (challengeData) => {
+  return (dispatch) => {
+    api.put(API_PATH+'/saving/'+challengeData._id, {
+      savingAmount: challengeData.savingAmount
+    }).then(response => {
+      dispatch(challengeUpdated(response.data));
+    }).catch(err => {
+      const { errors } = err.response.data;
+      dispatch(challengeUpdateFailed(errors));
+    })
+  }
+}
+
 export const deleteChallenge = (challenge_id) => {
   return (dispatch) => {
     api.delete(API_PATH + `/${challenge_id}`).then(response => {
