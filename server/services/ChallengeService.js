@@ -74,6 +74,37 @@ class ChallengeService {
         }
     }
 
+    updateChallengeSaving = (challengeData, error, success) => {
+        try {
+            ChallengeModel.findOne({ _id: challengeData.id, ownedBy: challengeData.ownedBy },
+            (err, res) => {
+                if(err || !res) {
+                    error({ status_code: 'ERR_CHALLENGE_NOTFOUND', errors: [ {msg: 'A kihívás nem található!'}] });
+                } else {
+                    res.total = Number(res.total) + Number(challengeData.savingAmount);
+
+                    if(res.total >= res.goalAmount) {
+                        res.completed = true;
+                    }
+
+                    res.save({}, (err, res) => {
+                        if(err || !res) {
+                            error({ status_code: 'ERR_CHALLENGE_FAILED_UPDATE', errors: [ {msg: 'A kihívás módosítása során hiba történt!'}] });
+                        } else {
+                            success(res);
+                        }
+                    })
+                }
+            });
+        } catch (err) {
+            if(err.kind === "ObjectId") {
+                error({ status_code: 'ERR_CHALLENGE_NOTFOUND', errors: [ {msg: 'A kihívás nem található!'}] });
+            }
+            console.error(err.message);
+            error({ status_code: 'ERR_INTERNAL_SERVER', errors: [ {msg: 'Szerver hiba!'}] });
+        }
+    }
+
     deleteChallenge = (challenge, error, success) => {
         try {
             const { challengeId, userId } = challenge;

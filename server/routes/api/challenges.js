@@ -4,7 +4,7 @@ const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
-const { fetchAllChallenges, fetchChallengeById, insertChallenge, updateChallenge, deleteChallenge } = require('../../services/ChallengeService');
+const { fetchAllChallenges, fetchChallengeById, insertChallenge, updateChallenge, updateChallengeSaving, deleteChallenge } = require('../../services/ChallengeService');
 
 // @route  GET /api/challenges
 // @desc   Fetch all challenges
@@ -122,6 +122,41 @@ router.put('/:challengeId', [
         };
 
         updateChallenge(challenge, (error) => {
+            return res.status(400).json(error);
+        }, (result) => {
+            return res.json(result);
+        });
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({ status_code: 'ERR_INTERNAL_SERVER', errors: [ { msg : 'Szerver hiba!'}] });
+    }
+});
+
+// @route  PUT /api/challenges/saving/:challengeId
+// @desc   Modify saving on challenge
+// @access Private
+router.put('/saving/:challengeId', [
+    auth,
+    check('savingAmount', 'Megtakarítás beállítása kötelező!').notEmpty().isNumeric().custom(value => value > 0)
+], (req, res) => {
+    try {
+        const validationErrors = validationResult(req);
+        if(!validationErrors.isEmpty()){
+            const { errors } = validationErrors;
+            return res.status(400).json({ status_code: 'ERR_VALIDATION_ERROR', errors });
+        }
+
+        const { savingAmount } = req.body;
+        const { challengeId } = req.params;
+        const { id: userId } = req.user;
+
+        const challengeData = {
+            id: challengeId,
+            savingAmount,
+            ownedBy: userId
+        };
+
+        updateChallengeSaving(challengeData, (error) => {
             return res.status(400).json(error);
         }, (result) => {
             return res.json(result);
