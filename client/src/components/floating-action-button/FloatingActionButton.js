@@ -103,7 +103,9 @@ const FloatingActionButton = () => {
           ))}
         </SpeedDial>
       </div>
-      { showExpenseModal ? <ExpenseModal modalShow={showExpenseModal} setShowModal={setShowExpenseModal} handleEditModalClose={handleModalClose} modalType={moneyType} /> : '' }
+      { showExpenseModal ? 
+        <ExpenseModal modalShow={showExpenseModal} setShowModal={setShowExpenseModal} handleEditModalClose={handleModalClose} modalType={moneyType} /> 
+        : '' }
       </Fragment>
   );
 }

@@ -31,13 +31,19 @@ const EditExpenseModal = ({ expenseErrors, modalShow, setShowModal, handleEditMo
   }
 
   const canSave = () => {
-    return title.length > 0 && description.length > 0 && amount > 0 && issueDate && (moneyType === 'expense' || moneyType === 'income');
+    return title.length > 0 && 
+      description.length > 0 && 
+      amount > 0 && 
+      issueDate && 
+      (moneyType === 'expense' || moneyType === 'income');
   }
 
   return (
     <Modal show={modalShow} onHide={handleEditModalClose}>
       <Modal.Header closeButton>
-        <Modal.Title>{expense.title} szerkesztése</Modal.Title>
+        <Modal.Title>
+          {expense.title} szerkesztése
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
       <Form className="justify-content-center">

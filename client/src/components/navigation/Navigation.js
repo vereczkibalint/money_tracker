@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './Navigation.css';
 
 import { connect } from 'react-redux';
@@ -19,35 +19,15 @@ const Navigation = ({ isAuthenticated, logout, user }) => {
 
       <div className="collapse navbar-collapse" id="mobileOnlyNavigation">
         <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
-          <li className="nav-item active">
-            <Link className="nav-link" to="#">Összegzés <span className="sr-only">(jelenlegi)</span></Link>
-          </li>
-          { /* <li className="nav-item">
-            <Link className="nav-link" to="#">Bevételek</Link>
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/dashboard/transactions">Összegzés <span className="sr-only">(jelenlegi)</span></NavLink>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="#">Kiadások</Link>
-          </li>
-          */ }
-          <li className="nav-item">
-            <Link className="nav-link" to="#">Kihívások</Link>
+            <NavLink className="nav-link" to="/dashboard/challenges">Kihívások</NavLink>
           </li> 
-          {isAuthenticated ? (
-            <Fragment>
-            <li className="nav-item">
-              <Link className="nav-link" to="#" onClick={() => logout()}>Kijelentkezés</Link>
-            </li>
-            </Fragment>
-          ) : (
-            <Fragment>
-            <li className="nav-item">
-              <Link className="nav-link" to="#">Bejelentkezés</Link>
-            </li>
-            <li className="nav-item">
-                <Link className="nav-link" to="#">Regisztráció</Link>
-            </li>
-            </Fragment>
-            )}
+          <li className="nav-item">
+            <NavLink className="nav-link" to="#" onClick={() => logout()}>Kijelentkezés</NavLink>
+          </li>
         </ul>
       </div>
     </nav>

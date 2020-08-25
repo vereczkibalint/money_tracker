@@ -28,10 +28,16 @@ const MoneyCard = ({ moneyData, updateExpense, deleteExpense }) => {
     <Fragment>
       <Card className="m-4 mx-auto moneyCard">
         <Card.Header className="border-0" style={{background: moneyData.moneyType === 'expense' ? 'linear-gradient(rgba(200, 35, 51, 0.9), rgba(200, 35, 51, 0.8))' : 'linear-gradient(rgba(80, 116, 2, 0.9), rgba(80, 116, 2, 0.8))', }}>
-          <h4 className="text-white" style={{textShadow: '1px 1px #000000'}}>{moneyData.title}</h4>
+          <h4 className="text-white" style={{textShadow: '1px 1px #000000'}}>
+            {moneyData.title}
+          </h4>
           <div className="expense-actions">
-            <span className="mr-3" role="button" onClick={() => setShowEditModal(true)}><FontAwesomeIcon icon={faPen} style={{color: '#FFFFFF'}}/></span>
-            <span role="button" onClick={() => handleDelete(moneyData._id)}><FontAwesomeIcon icon={faTrash} style={{color: '#FFFFFF'}}/></span>
+            <span className="mr-3" role="button" onClick={() => setShowEditModal(true)}>
+              <FontAwesomeIcon icon={faPen} style={{color: '#FFFFFF'}}/>
+            </span>
+            <span role="button" onClick={() => handleDelete(moneyData._id)}>
+              <FontAwesomeIcon icon={faTrash} style={{color: '#FFFFFF'}}/>
+            </span>
           </div>
         </Card.Header>
         <Card.Body>
@@ -54,7 +60,9 @@ const MoneyCard = ({ moneyData, updateExpense, deleteExpense }) => {
           </div>
         </Card.Footer>
       </Card>
-      { showEditModal ? <EditExpenseModal modalShow={showEditModal} setShowModal={setShowEditModal} expenseId={moneyData._id} handleEditModalClose={handleClose} updateExpense={updateExpense} /> : '' }
+      { showEditModal ? 
+        <EditExpenseModal modalShow={showEditModal} setShowModal={setShowEditModal} expenseId={moneyData._id} handleEditModalClose={handleClose} updateExpense={updateExpense} /> 
+        : '' }
     </Fragment>
   );
 }
