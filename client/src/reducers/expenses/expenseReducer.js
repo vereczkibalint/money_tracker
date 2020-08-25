@@ -1,4 +1,14 @@
-import { EXPENSES_FETCHED, EXPENSE_FETCH_FAILED, EXPENSE_UPDATED, EXPENSE_UPDATE_FAILED, EXPENSE_DELETED, EXPENSE_DELETE_FAILED, EXPENSE_FILTER_BY_SEARCHTERM } from '../../actions/expenses/expensesActionTypes';
+import { 
+  EXPENSES_FETCHED,
+  EXPENSE_FETCH_FAILED,
+  EXPENSE_CREATED,
+  EXPENSE_CREATE_FAILED,
+  EXPENSE_UPDATED,
+  EXPENSE_UPDATE_FAILED,
+  EXPENSE_DELETED,
+  EXPENSE_DELETE_FAILED,
+  EXPENSE_FILTER_BY_SEARCHTERM
+} from '../../actions/expenses/expensesActionTypes';
 
 const initialState = {
   expenses: [],
@@ -18,6 +28,18 @@ const expenseReducer = (state = initialState, action) => {
         ...state,
         errors: payload.errors
       }
+    case EXPENSE_CREATED:
+      return {
+        ...state,
+        errors: [],
+        expenses: [...state.expenses, payload.expense]
+      }
+    case EXPENSE_CREATE_FAILED: {
+      return {
+        ...state,
+        errors: payload.errors
+      }
+    }
     case EXPENSE_UPDATED:
       return {
         ...state,
