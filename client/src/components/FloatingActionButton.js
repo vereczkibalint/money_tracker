@@ -15,8 +15,7 @@ import ExpenseModal from './expense-modal/ExpenseModal';
 
 const useStyles = makeStyles((theme) => ({
   fabWrapper: {
-    position: 'relative',
-    height: 150
+    position: 'relative'
   },
   speedDial: {
     position: 'fixed',

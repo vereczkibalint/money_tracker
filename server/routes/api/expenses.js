@@ -16,7 +16,7 @@ router.get('/',
   try {
     const { id: userId } = req.user;
     fetchExpense(userId.toString(), (error) => {
-      return res.status(400).json({ status_code: error.status_code, errors: [ {msg: error.message} ] });
+	  return res.status(400).json(error);
     }, (result) => {
       return res.json(result);
     });
@@ -86,10 +86,10 @@ router.put('/:expenseId',
 (req, res) => {
   try {
     const validationErrors = validationResult(req);
-	if(!validationErrors.isEmpty()){
-      const { errors } = validationErrors;
-      return res.status(400).json({ status_code: 'ERR_VALIDATION_ERROR', errors });
-	}
+    if(!validationErrors.isEmpty()){
+        const { errors } = validationErrors;
+        return res.status(400).json({ status_code: 'ERR_VALIDATION_ERROR', errors });
+    }
 
     const { title, description, moneyType, amount, issueDate } = req.body;
     const { id: userId } = req.user;
@@ -106,7 +106,7 @@ router.put('/:expenseId',
     }
 
     updateExpense(moneyData, (error) => {
-      return res.status(400).json({ status_code: error.status_code, errors: [ { msg: error.message}] });
+      return res.status(400).json(error);
     }, (result) => {
       return res.json(result);
     });
@@ -130,7 +130,7 @@ router.delete('/:expenseId', auth, (req, res) => {
 
     const moneyData = { expenseId, userId };
     deleteExpense(moneyData, (error) => {
-      return res.status(400).json({ status_code: error.status_code, errors: [ { msg: error.message }] });
+      return res.status(400).json(error);
     }, (result) => {
       return res.json(result);
     })

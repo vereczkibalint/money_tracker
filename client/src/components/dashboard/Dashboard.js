@@ -20,9 +20,10 @@ const Dashboard = ({ expenses, fetchAllExpenses }) => {
     <Fragment>
       <h2 className="text-center mt-3">Összegzés</h2>
       <ExpenseFilter />
-      {expenses && expenses.length > 0 && expenses.map(moneyData => {
+      {expenses && expenses.length > 0 ? expenses.map(moneyData => {
           return <MoneyCard moneyData={moneyData} key={moneyData._id} />;
-      })}
+      }) : (<h2 className='text-center mt-3'>Nincs megjeleníthető tranzakció!</h2>)}
+
     </Fragment>
   )
 }

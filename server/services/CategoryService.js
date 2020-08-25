@@ -12,7 +12,7 @@ class CategoryService {
             });
         } catch (err) {
             console.error(err.message);
-            error({ status_code: 'ERR_INTERNAL_SERVER', msg: 'Szerver hiba!' });
+            error({ status_code: 'ERR_INTERNAL_SERVER', errors: [ {msg: 'Szerver hiba!'} ] });
         }    
     }
 

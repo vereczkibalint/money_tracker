@@ -53,9 +53,10 @@ router.post('/', [
     check('color', 'Szín megadása kötelező!').notEmpty()
 ], (req, res) => {
     try {
-        const errors = validationResult(req);
-        if(!errors.isEmpty()){
-            return res.status(400).json({ status_code: "ERR_VALIDATION_ERROR", errors: errors.array() });
+        const validationErrors = validationResult(req);
+        if(!validationErrors.isEmpty()){
+            const { errors } = validationErrors;
+            return res.status(400).json({ status_code: 'ERR_VALIDATION_ERROR', errors });
         }
 
         const { name, color } = req.body;
@@ -87,9 +88,10 @@ router.put('/:categoryId', [
     check('color', 'Szín megadása kötelező!').notEmpty()
 ], (req, res) => {
     try {
-        const errors = validationResult(req);
-        if(!errors.isEmpty()){
-            return res.status(400).json({ status_code: "ERR_VALIDATION_ERROR", errors: errors.array() });
+        const validationErrors = validationResult(req);
+        if(!validationErrors.isEmpty()){
+            const { errors } = validationErrors;
+            return res.status(400).json({ status_code: 'ERR_VALIDATION_ERROR', errors });
         }
 
         const { name, color } = req.body;

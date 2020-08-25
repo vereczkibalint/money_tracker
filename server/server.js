@@ -15,6 +15,7 @@ const categoryRouter = require('./routes/api/category');
 const userRouter = require('./routes/api/users');
 const authRouter = require('./routes/api/auth');
 const expensesRouter = require('./routes/api/expenses');
+const challengeRouter = require('./routes/api/challenges');
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
@@ -24,6 +25,7 @@ app.use('/api/categories', categoryRouter);
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/expenses', expensesRouter);
+app.use('/api/challenges', challengeRouter);
 
 const PORT = process.env.PORT || 3001;
 
