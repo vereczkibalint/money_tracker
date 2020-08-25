@@ -7,8 +7,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { createExpense } from '../../services/expenseService';
+import { createChallenge } from '../../services/challengeService';
 
-const ExpenseModal = ({ createExpense, expenseErrors, modalShow, modalType, setShowModal, handleEditModalClose }) => {
+const ExpenseModal = ({ createExpense, createChallenge, challengeErrors, expenseErrors, modalShow, modalType, setShowModal, handleEditModalClose }) => {
+
   const [expenseTitle, setExpenseTitle] = useState('');
   const [expenseDescription, setExpenseDescription] = useState('');
   const [expenseAmount, setExpenseAmount] = useState('');
@@ -20,8 +22,8 @@ const ExpenseModal = ({ createExpense, expenseErrors, modalShow, modalType, setS
   const [challengeGoalAmount, setChallengeGoalAmount] = useState(0);
   const [challengeDeadline, setChallengeDeadline] = useState(new Date());
   
-  const handleSave = () => {
-    if(canSave()) {
+  const handleEditSave = () => {
+    if(verifyEdit()) {
       const newExpense = {
         title: expenseTitle,
         description: expenseDescription,
@@ -37,12 +39,28 @@ const ExpenseModal = ({ createExpense, expenseErrors, modalShow, modalType, setS
     }
   }
 
-  const handleCreate = () => {
-    console.log('challenge create')
+  const handleCreateSave = () => {
+    if(verifyChallengeCreate()) {
+      const newChallenge = {
+        title: challengeTitle,
+        description: challengeDescription,
+        goalAmount: challengeGoalAmount,
+        deadline: challengeDeadline
+      };
+
+      createChallenge(newChallenge);
+      if(challengeErrors.length === 0) {
+        setShowModal(false);
+      }
+    }
   }
 
-  const canSave = () => {
+  const verifyEdit = () => {
     return expenseTitle.length > 0 && expenseDescription.length > 0 && expenseAmount > 0 && expenseIssueDate && (expenseMoneyType === 'expense' || expenseMoneyType === 'income');
+  }
+
+  const verifyChallengeCreate = () => {
+    return challengeTitle.length > 0 && challengeDescription.length > 0 && challengeGoalAmount > 0 && (new Date(challengeDeadline) > new Date());
   }
 
   return (
@@ -88,9 +106,9 @@ const ExpenseModal = ({ createExpense, expenseErrors, modalShow, modalType, setS
         </Form>
         ) : (
           <Form className="justify-content-center">
-          {expenseErrors && expenseErrors.length > 0 && expenseErrors.map((expenseError, errorIndex) => (
+          {challengeErrors && challengeErrors.length > 0 && challengeErrors.map((challengeError, errorIndex) => (
             <div className="alert alert-danger" key={errorIndex}>
-              {expenseError.msg}
+              {challengeError.msg}
             </div>
           ))}
           <Form.Group controlId="title">
@@ -118,7 +136,7 @@ const ExpenseModal = ({ createExpense, expenseErrors, modalShow, modalType, setS
             <Button variant="secondary" onClick={handleEditModalClose}>
               Bezár
             </Button>
-            <Button variant="primary" onClick={() => handleSave()}>
+            <Button variant="primary" onClick={() => handleEditSave()}>
               Mentés
             </Button>
           </Fragment>
@@ -127,7 +145,7 @@ const ExpenseModal = ({ createExpense, expenseErrors, modalShow, modalType, setS
             <Button variant="secondary" onClick={handleEditModalClose}>
               Bezár
             </Button>
-            <Button variant="primary" onClick={() => handleCreate()}>
+            <Button variant="primary" onClick={() => handleCreateSave()}>
               Lérehozás
             </Button>
           </Fragment>
@@ -139,11 +157,14 @@ const ExpenseModal = ({ createExpense, expenseErrors, modalShow, modalType, setS
 
 ExpenseModal.propTypes = {
   createExpense: PropTypes.func.isRequired,
-  expenseErrors: PropTypes.array
+  createChallenge: PropTypes.func.isRequired,
+  expenseErrors: PropTypes.array,
+  challengeErrors: PropTypes.array
 };
 
-const mapStateToProps = ({ expenses }) => ({
-  expenseErrors: expenses.errors
+const mapStateToProps = ({ expenses, challenges }) => ({
+  expenseErrors: expenses.errors,
+  challengeErrors: challenges.errors
 });
 
-export default connect(mapStateToProps, { createExpense })(ExpenseModal);
+export default connect(mapStateToProps, { createExpense, createChallenge })(ExpenseModal);
