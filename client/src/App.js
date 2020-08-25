@@ -13,6 +13,7 @@ import Navigation from './components/navigation/Navigation';
 import Login from './components/login/Login';
 import Register from './components/register/Register';
 import Dashboard from './components/dashboard/Dashboard';
+import FloatingActionButton from './components/FloatingActionButton';
 
 import store from './store';
 import PrivateRoute from './components/PrivateRoute';
@@ -36,6 +37,7 @@ function App({ isAuthenticated }) {
                 <Route path="/register" component={Register} />
                 <PrivateRoute path="/dashboard" component={Dashboard} />
               </Switch>
+              { isAuthenticated ? <FloatingActionButton /> : '' }
           </div>
         </div>
         </Router>
