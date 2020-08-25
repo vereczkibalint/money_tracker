@@ -31,20 +31,6 @@ const Sidebar = ({ logout, user }) => {
               </div>
         </div>
         <div className="list-group list-group-flush">
-          { /* <Link to="#" className="list-group-item list-group-item-action">
-            <div className="d-flex">
-              <div className="p-2 menu-icon"><FontAwesomeIcon icon={faWallet} /></div>
-              <div className="p-2"><span className="menu-text">Bevételek</span></div>
-              <div className="ml-auto p-2 menu-icon"><FontAwesomeIcon icon={faCaretRight} /></div>
-            </div>
-          </Link>
-          <Link to="#" className="list-group-item list-group-item-action">
-            <div className="d-flex">
-              <div className="p-2 menu-icon"><FontAwesomeIcon icon={faCreditCard} /></div>
-              <div className="p-2"><span className="menu-text">Kiadások</span></div>
-              <div className="ml-auto p-2 menu-icon"><FontAwesomeIcon icon={faCaretRight} /></div>
-            </div>
-          </Link> */ }
           <NavLink to="/dashboard/transactions" className="list-group-item list-group-item-action" activeClassName="menu-active">
             <div className="d-flex">
               <div className="p-2 menu-icon"><FontAwesomeIcon icon={faListAlt} style={{fontSize: '24px'}}/></div>

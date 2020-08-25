@@ -6,10 +6,13 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { createExpense } from '../../services/expenseService';
-import { createChallenge } from '../../services/challengeService';
+import { createExpense } from '../../../services/expenseService';
+import { createChallenge } from '../../../services/challengeService';
 
 const ExpenseModal = ({ createExpense, createChallenge, challengeErrors, expenseErrors, modalShow, modalType, setShowModal, handleEditModalClose }) => {
+
+  const today = new Date();
+  const deadlineMin = moment(today).add(1, 'day');
 
   const [expenseTitle, setExpenseTitle] = useState('');
   const [expenseDescription, setExpenseDescription] = useState('');
@@ -20,7 +23,7 @@ const ExpenseModal = ({ createExpense, createChallenge, challengeErrors, expense
   const [challengeTitle, setChallengeTitle] = useState('');
   const [challengeDescription, setChallengeDescription] = useState('');
   const [challengeGoalAmount, setChallengeGoalAmount] = useState(0);
-  const [challengeDeadline, setChallengeDeadline] = useState(new Date());
+  const [challengeDeadline, setChallengeDeadline] = useState(deadlineMin);
   
   const handleEditSave = () => {
     if(verifyEdit()) {
@@ -101,7 +104,7 @@ const ExpenseModal = ({ createExpense, createChallenge, challengeErrors, expense
           </Form.Group>
           <Form.Group controlId="issueDate">
             <Form.Label>Dátum</Form.Label>
-            <Form.Control type="date" value={moment(new Date(expenseIssueDate)).format('YYYY-MM-DD')} onChange={(e) => setExpenseIssueDate(e.target.value)} />
+            <Form.Control type="date" onKeyDown={(e) => e.preventDefault()} value={moment(new Date(expenseIssueDate)).format('YYYY-MM-DD')} onChange={(e) => setExpenseIssueDate(e.target.value)} />
           </Form.Group>
         </Form>
         ) : (
@@ -125,7 +128,7 @@ const ExpenseModal = ({ createExpense, createChallenge, challengeErrors, expense
           </Form.Group>
           <Form.Group controlId="issueDate">
             <Form.Label>Határidő</Form.Label>
-            <Form.Control type="date" min={new Date().toISOString().split("T")[0]} onKeyDown={(e) => e.preventDefault()} value={moment(new Date(challengeDeadline)).format('YYYY-MM-DD')} onChange={(e) => setChallengeDeadline(e.target.value)} />
+            <Form.Control type="date" min={deadlineMin.toISOString().split("T")[0]} onKeyDown={(e) => e.preventDefault()} value={moment(new Date(challengeDeadline)).format('YYYY-MM-DD')} onChange={(e) => setChallengeDeadline(e.target.value)} />
           </Form.Group>
         </Form>
         )}

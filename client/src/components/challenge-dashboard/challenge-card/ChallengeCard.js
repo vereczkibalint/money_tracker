@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 import { Card } from 'react-bootstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 
-import { deleteChallenge } from '../../services/challengeService';
+import { deleteChallenge } from '../../../services/challengeService';
 
 const ChallengeCard = ({ challengeData, deleteChallenge }) => {
 
@@ -25,6 +25,7 @@ const ChallengeCard = ({ challengeData, deleteChallenge }) => {
         <Card.Header className="border-0">
           <h4 className="text-black">{challengeData.title}</h4>
           <div className="expense-actions">
+            <span className="mr-3" role="button"><FontAwesomeIcon icon={faPlus} style={{color: '#000000'}}/></span>
             <span className="mr-3" role="button"><FontAwesomeIcon icon={faPen} style={{color: '#000000'}}/></span>
             <span role="button"><FontAwesomeIcon icon={faTrash} style={{color: '#000000'}} onClick={() => handleDelete(challengeData._id)}/></span>
           </div>
@@ -41,7 +42,8 @@ const ChallengeCard = ({ challengeData, deleteChallenge }) => {
                   year: 'numeric', 
             }).format(new Date(challengeData.deadline))}
             </span>
-            <span className="text-danger font-weight-bold">{challengeData.goalAmount},- Ft</span>
+            <span className="text-danger font-weight-bold">Cél: {challengeData.goalAmount},- Ft</span>
+            <span className="text-success font-weight-bold">Hátralévő: {challengeData.goalAmount - challengeData.total},- Ft</span>
           </div>
         </Card.Footer>
       </Card>

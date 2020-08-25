@@ -18,6 +18,10 @@ const ChallengeSchema = new Schema({
   },
   deadline: {
     type: Date
+  },
+  total: {
+    type: Number,
+    default: 0
   }
 });
 

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 
-import { filterExpensesBySearchTerm } from '../../services/expenseService';
+import { filterExpensesBySearchTerm } from '../../../services/expenseService';
 
 const ExpenseFilter = ({ filterExpensesBySearchTerm }) => {
   const [searchTerm, setSearchTerm] = useState('');

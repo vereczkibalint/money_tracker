@@ -11,7 +11,7 @@ import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoneyBill, faHandHoldingUsd, faTrophy }from '@fortawesome/free-solid-svg-icons';
 
-import ExpenseModal from '../expense-modal/ExpenseModal';
+import ExpenseModal from './expense-modal/ExpenseModal';
 
 const useStyles = makeStyles((theme) => ({
   fabWrapper: {

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { fetchAllChallenges } from '../../services/challengeService';
-import ChallengeCard from '../challenge-card/ChallengeCard';
+import ChallengeCard from './challenge-card/ChallengeCard';
 
 const ChallengeDasboard = ({ challenges, fetchAllChallenges }) => {
   

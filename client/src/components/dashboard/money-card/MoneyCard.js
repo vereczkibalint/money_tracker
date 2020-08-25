@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react';
 import './MoneyCard.css';
 
 import { Card } from 'react-bootstrap';
-import EditExpenseModal from '../edit-expense/EditExpenseModal';
+import EditExpenseModal from '../../edit-expense/EditExpenseModal';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-import { updateExpense, deleteExpense } from '../../services/expenseService';
+import { updateExpense, deleteExpense } from '../../../services/expenseService';
 
 const MoneyCard = ({ moneyData, updateExpense, deleteExpense }) => {
 
