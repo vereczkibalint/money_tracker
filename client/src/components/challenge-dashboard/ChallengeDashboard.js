@@ -18,7 +18,7 @@ const ChallengeDasboard = ({ challenges, fetchAllChallenges }) => {
     <Fragment>
       <h2 className="text-center mt-3">Kihívások összegzése</h2>
       {challenges && challenges.length > 0 ? challenges.map(challenge => {
-          return <ChallengeCard challengeData={challenge} />
+          return <ChallengeCard challengeData={challenge} key={challenge._id} />
       }) : (<h2 className='text-center mt-3'>Nincs megjeleníthető kihívás!</h2>)}
     </Fragment>
   )

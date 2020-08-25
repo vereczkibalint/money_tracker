@@ -9,25 +9,60 @@ import { Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 
-import { deleteChallenge } from '../../../services/challengeService';
+import { updateChallengeSaving, deleteChallenge } from '../../../services/challengeService';
 
-const ChallengeCard = ({ challengeData, deleteChallenge }) => {
+const ChallengeCard = ({ challengeData, challengeErrors, updateChallengeSaving, deleteChallenge }) => {
 
-  const handleDelete = (challenge_id) => {
+  const handleDelete = (challengeId) => {
     if(window.confirm('Biztosan törölni szeretnéd?')) {
-      deleteChallenge(challenge_id);
+      deleteChallenge(challengeId);
     }
+  }
+
+  const handleSavingChange = (challengeId) => {
+    const savingAmount = window.prompt("Félretett pénz (Ft):", 0);
+
+    if(savingAmount <= 0) return;
+    
+    const challengeData = {
+      _id: challengeId,
+      savingAmount
+    };
+    updateChallengeSaving(challengeData);
   }
 
   return (
     <Fragment>
+      {
+      challengeErrors && challengeErrors.length > 0 && challengeErrors.map((challengeError, errorIndex) => (
+          <div className="alert alert-danger" key={errorIndex}>
+            {challengeError.msg}
+          </div>
+      ))}
       <Card className="m-4 mx-auto moneyCard">
-        <Card.Header className="border-0">
-          <h4 className="text-black">{challengeData.title}</h4>
+        <Card.Header 
+          className="border-0"
+          style={ challengeData.completed ?
+              { background: 'linear-gradient(rgba(80, 116, 2, 0.9), rgba(80, 116, 2, 0.8))', color: '#FFFFFF'} 
+              : {backgroundColor: '#FFFFFF'} }>
+          <h4 className= { challengeData.completed ? 'text-white' : 'text-black'}
+            style={{textShadow: '1px 1px #000000'}}>
+              {challengeData.title}
+          </h4>
           <div className="expense-actions">
-            <span className="mr-3" role="button"><FontAwesomeIcon icon={faPlus} style={{color: '#000000'}}/></span>
-            <span className="mr-3" role="button"><FontAwesomeIcon icon={faPen} style={{color: '#000000'}}/></span>
-            <span role="button"><FontAwesomeIcon icon={faTrash} style={{color: '#000000'}} onClick={() => handleDelete(challengeData._id)}/></span>
+            {!challengeData.completed && new Date(challengeData.deadline) > new Date() ? (
+              <Fragment>
+                <span className="mr-3" role="button">
+                  <FontAwesomeIcon icon={faPlus} style={{color: '#000000'}} onClick={() => handleSavingChange(challengeData._id)} />
+                </span>
+                <span className="mr-3" role="button">
+                  <FontAwesomeIcon icon={faPen} style={{color: '#000000'}} />
+                </span>
+              </Fragment>
+            ) : ''}
+            <span role="button">
+              <FontAwesomeIcon icon={faTrash} style={{color: '#000000'}} onClick={() => handleDelete(challengeData._id)}/>
+            </span>
           </div>
         </Card.Header>
         <Card.Body>
@@ -42,8 +77,12 @@ const ChallengeCard = ({ challengeData, deleteChallenge }) => {
                   year: 'numeric', 
             }).format(new Date(challengeData.deadline))}
             </span>
-            <span className="text-danger font-weight-bold">Cél: {challengeData.goalAmount},- Ft</span>
-            <span className="text-success font-weight-bold">Hátralévő: {challengeData.goalAmount - challengeData.total},- Ft</span>
+            <span className="text-danger font-weight-bold">
+              Cél: {challengeData.goalAmount},- Ft
+            </span>
+            <span className="text-success font-weight-bold">
+              Hátralévő: {challengeData.goalAmount - challengeData.total},- Ft
+            </span>
           </div>
         </Card.Footer>
       </Card>
@@ -52,7 +91,12 @@ const ChallengeCard = ({ challengeData, deleteChallenge }) => {
 }
 
 ChallengeCard.propTypes = {
+  updateChallengeSaving: PropTypes.func.isRequired,
   deleteChallenge: PropTypes.func.isRequired
 };
 
-export default connect(null, { deleteChallenge })(ChallengeCard);
+const mapStateToProps = ({ challenges }) => ({
+  challengeErrors: challenges.errors
+});
+
+export default connect(mapStateToProps, { updateChallengeSaving, deleteChallenge })(ChallengeCard);
