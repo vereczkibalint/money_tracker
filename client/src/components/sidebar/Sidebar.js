@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import './Sidebar.css';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import profileImg from '../../assets/images/profile.png';
 
@@ -45,27 +45,27 @@ const Sidebar = ({ logout, user }) => {
               <div className="ml-auto p-2 menu-icon"><FontAwesomeIcon icon={faCaretRight} /></div>
             </div>
           </Link> */ }
-          <Link to="#" className="list-group-item list-group-item-action list-group-item-active">
+          <NavLink to="/dashboard/transactions" className="list-group-item list-group-item-action" activeClassName="menu-active">
             <div className="d-flex">
               <div className="p-2 menu-icon"><FontAwesomeIcon icon={faListAlt} style={{fontSize: '24px'}}/></div>
               <div className="p-2"><span className="menu-text">Összegzés</span></div>
               <div className="ml-auto p-2 menu-icon"><FontAwesomeIcon icon={faCaretRight} /></div>
             </div>
-          </Link>
-          <Link to="#" className="list-group-item list-group-item-action">
+          </NavLink>
+          <NavLink to="/dashboard/challenges" className="list-group-item list-group-item-action" activeClassName="menu-active">
             <div className="d-flex">
               <div className="p-2 menu-icon"><FontAwesomeIcon icon={faTrophy} style={{fontSize: '24px'}}/></div>
               <div className="p-2"><span className="menu-text">Kihívások</span></div>
               <div className="ml-auto p-2 menu-icon"><FontAwesomeIcon icon={faCaretRight} style={{fontSize: '24px'}}/></div>
             </div>
-          </Link>
-          <Link to="#" className="list-group-item list-group-item-action">
+          </NavLink>
+          <NavLink to="/settings" className="list-group-item list-group-item-action" activeClassName="menu-active">
             <div className="d-flex">
               <div className="p-2 menu-icon"><FontAwesomeIcon icon={faCog} style={{fontSize: '24px'}}/></div>
               <div className="p-2"><span className="menu-text">Beállítások</span></div>
               <div className="ml-auto p-2 menu-icon"><FontAwesomeIcon icon={faCaretRight} style={{fontSize: '24px'}}/></div>
             </div>
-          </Link>
+          </NavLink>
         </div>
       </div>
     </Fragment>

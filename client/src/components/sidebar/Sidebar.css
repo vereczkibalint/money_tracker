@@ -26,13 +26,20 @@
   box-shadow: 0px 1px var(--text-shadow-color);
 }
 
-.list-group-flush > .list-group-item-active {
+.list-group-flush > .menu-active {
   background-color: var(--bg-money-secondary-color);
 }
 
 .list-group-flush > .list-group-item:hover {
   color: #FFFFFF;
   background-color: var(--bg-money-secondary-color);
+}
+
+.menu-active, .list-group-item-action:active {
+  border-left: 5px solid var(--bg-money-primary-color) !important;
+  border-right: 5px solid var(--bg-money-primary-color) !important;
+  color: #FFFFFF !important;
+  background-color: var(--bg-money-secondary-color) !important;
 }
 
 #sidebar-wrapper .list-group {
@@ -76,5 +83,4 @@
 
 .menu-icon {
   color: #393F00;
-  font-size-adjust: ;
 }
