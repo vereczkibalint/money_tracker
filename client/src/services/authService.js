@@ -1,6 +1,13 @@
 import api from '../utils/api';
 
-import { successfulAuth, failedAuth, userLoaded, logoutAuth, registerSuccessful, registerFailed } from '../actions/auth/authActions';
+import {
+  successfulAuth,
+  failedAuth,
+  userLoaded,
+  logoutAuth,
+  registerSuccessful,
+  registerFailed
+} from '../actions/auth/authActions';
 
 const API_PATH = '/auth';
 const REGISTER_PATH = '/users';
