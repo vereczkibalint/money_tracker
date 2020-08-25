@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import { fetchAllExpenses } from '../../services/expenseService';
 
-import MoneyCard from './money-card/MoneyCard';
+import MoneyCard from '../money-card/MoneyCard';
 import ExpenseFilter from './expense-filter/ExpenseFilter';
 
 const Dashboard = ({ expenses, fetchAllExpenses }) => {
