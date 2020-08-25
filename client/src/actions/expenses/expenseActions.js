@@ -1,4 +1,4 @@
-import { EXPENSES_FETCHED, EXPENSE_FETCH_FAILED, EXPENSE_UPDATED, EXPENSE_UPDATE_FAILED, EXPENSE_DELETED, EXPENSE_DELETE_FAILED, EXPENSE_FILTER_BY_SEARCHTERM } from './expensesActionTypes';
+import { EXPENSES_FETCHED, EXPENSE_FETCH_FAILED, EXPENSE_CREATED, EXPENSE_CREATE_FAILED, EXPENSE_UPDATED, EXPENSE_UPDATE_FAILED, EXPENSE_DELETED, EXPENSE_DELETE_FAILED, EXPENSE_FILTER_BY_SEARCHTERM } from './expensesActionTypes';
 
 export const expenseFetched = (expenses) => {
   return {
@@ -12,6 +12,24 @@ export const expenseFetched = (expenses) => {
 export const expenseFetchFailed = (errors) => {
   return {
     type: EXPENSE_FETCH_FAILED,
+    payload: {
+      errors
+    }
+  }
+}
+
+export const expenseCreated = (expense) => {
+  return {
+    type: EXPENSE_CREATED,
+    payload: {
+      expense
+    }
+  }
+}
+
+export const expenseCreateFailed = (errors) => {
+  return {
+    type: EXPENSE_CREATE_FAILED,
     payload: {
       errors
     }
