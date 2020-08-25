@@ -27,7 +27,7 @@ const Login = ({ login, isAuthenticated, authErrors }) => {
   }
 
   if(isAuthenticated) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to="/dashboard/transactions" />;
   }
 
   return (
